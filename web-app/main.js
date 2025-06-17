@@ -12,8 +12,14 @@ function render() {
   cells.forEach(cell => {
     const div = document.createElement('div');
     div.classList.add('grid-cell');
-    if (cell.hasPlayer) div.classList.add('player');
-    if (cell.outOfBounds) div.classList.add('out-of-bounds');
+    if (cell.hasPlayer) {
+      const chicken = document.createElement('img');
+      chicken.src = 'assets/chicken.webp'; 
+      chicken.alt = 'chicken';
+      chicken.classList.add('chicken-img');
+      div.appendChild(chicken);
+    }
+        if (cell.outOfBounds) div.classList.add('out-of-bounds');
 
     // Terrain style
     if (!cell.outOfBounds) {

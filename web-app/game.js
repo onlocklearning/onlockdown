@@ -90,7 +90,7 @@ export function movePlayer(state, direction) {
       }
     }
 
-    newCorn.push(newSpot);
+    newCorn.push(newSpot); 
   }
 
   return {
