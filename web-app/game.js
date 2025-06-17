@@ -1,23 +1,52 @@
+/** 
+ * @module game
+ * Represents the game state and logic
+ */
+
+/**
+ * Creates the initial game state
+ * @returns {Object} state
+ */
 export function createGameState() {
   return {
-    gridSize: 50, // changed from 5 to 50
-    playerPos: { x: 25, y: 25 } // start roughly in the center
+    gridSize: 50,
+    playerPos: { x: 25, y: 25 }, // center of 50x50 grid
   };
 }
 
-export function getGridCells(state) {
+/**
+ * Returns visible grid cells around the player, with player in center
+ * @param {Object} state 
+ * @returns {Array} cells - array of objects {x, y, hasPlayer, outOfBounds}
+ */
+export function getVisibleGridCells(state) {
+  const viewSize = 11;
+  const half = Math.floor(viewSize / 2);
   const cells = [];
-  for (let y = 0; y < state.gridSize; y++) {
-    for (let x = 0; x < state.gridSize; x++) {
+
+  for (let dy = -half; dy <= half; dy++) {
+    for (let dx = -half; dx <= half; dx++) {
+      const x = state.playerPos.x + dx;
+      const y = state.playerPos.y + dy;
+
       cells.push({
-        x, y,
-        hasPlayer: x === state.playerPos.x && y === state.playerPos.y
+        x,
+        y,
+        hasPlayer: dx === 0 && dy === 0,
+        outOfBounds: x < 0 || y < 0 || x >= state.gridSize || y >= state.gridSize
       });
     }
   }
+
   return cells;
 }
 
+/**
+ * Moves the player one cell in the given direction if valid
+ * @param {Object} state - current game state
+ * @param {'up'|'down'|'left'|'right'} direction
+ * @returns {Object} new state (immutable update)
+ */
 export function movePlayer(state, direction) {
   const { x, y } = state.playerPos;
   let newX = x;

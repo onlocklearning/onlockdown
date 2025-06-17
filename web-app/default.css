@@ -1,58 +1,60 @@
 body {
-    font-family: Arial, sans-serif;
-    background: #121212;
-    color: #eee;
-    text-align: center;
-    margin: 0;
-    padding: 20px;
-  }
-  
-  #game-container {
-    display: grid;
-    grid-template-columns: repeat(50, 18px); /* 50 columns */
-    gap: 1px;
-    margin: 10px auto;
-    width: fit-content;
-  }
-  
-  .grid-cell {
-    width: 18px;
-    height: 18px;
-    background: rgb(47, 47, 47);
-    border: 1px solid #000000;
-  }
-  
-  .player {
-    background: rgb(0, 255, 85);
-  }
-  
-  .controls {
-  position: fixed;
-  bottom: 10px;
-  left: 50%;
-  transform: translateX(-50%);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 8px;
+  font-family: Arial, sans-serif;
+  text-align: center;
+  background: #111;
+  color: white;
+}
+
+h1 {
+  margin-top: 20px;
+  font-size: 2rem;
+}
+
+#game-container {
+  display: grid;
+  grid-template-columns: repeat(11, 32px);
+  gap: 2px;
+  margin: 20px auto;
+  width: fit-content;
+}
+
+.grid-cell {
+  width: 32px;
+  height: 32px;
+  background: #444;
+  border-radius: 4px;
+}
+
+.player {
+  background: yellow;
+  border: 2px solid white;
+}
+
+.out-of-bounds {
+  background: black;
+}
+
+.controls {
+  margin-top: 20px;
+}
+
+.controls button {
+  font-size: 24px;
+  margin: 5px;
+  padding: 8px 12px;
+  border-radius: 8px;
+  border: none;
+  background: #333;
+  color: white;
+  cursor: pointer;
+}
+
+.controls button:hover {
+  background: #555;
 }
 
 .horizontal-controls {
   display: flex;
-  gap: 8px;
-}
-
-.controls button {
-  padding: 20px;
-  font-size: 24px;
-  border-radius: 12px;
-  border: none;
-  background-color: #fdd835;
-  box-shadow: 0 4px 6px rgba(0,0,0,0.2);
-  cursor: pointer;
-}
-
-.controls button:active {
-  background-color: #fbc02d;
-  transform: scale(0.95);
+  justify-content: center;
+  gap: 10px;
 }
