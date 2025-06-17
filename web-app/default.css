@@ -231,3 +231,11 @@ h1 {
 .arrow-btn.pulsing {
   animation: pulse 1s ease-in-out infinite;
 }
+
+/* this is for the corn */
+.grid-cell img {
+  display: block;
+  margin: auto;
+  pointer-events: none;
+  user-select: none;
+}

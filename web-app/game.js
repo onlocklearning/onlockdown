@@ -6,7 +6,7 @@
 export function createGameState() {
   const gridSize = 50;
   const playerPos = { x: 25, y: 25 };
-  const corn = generateCorn(20, gridSize); // 20 corn pieces
+  const corn = generateCorn(50, gridSize); // 20 corn pieces
   const score = 0;
 
   return {

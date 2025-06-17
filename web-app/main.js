@@ -23,9 +23,16 @@ function render() {
         div.style.backgroundColor = '#4b6';
       }
 
-      // Show corn
+      // Show corn image instead of yellow tile
       if (cell.hasCorn) {
-        div.style.backgroundColor = 'gold';
+        const cornImg = document.createElement('img');
+        cornImg.src = './assets/corn.webp';  // Adjust path to your image location
+        cornImg.alt = 'Corn';
+        cornImg.style.width = '60px';   // Fit nicely inside grid cell (80px assumed)
+        cornImg.style.height = '60px';
+        cornImg.style.userSelect = 'none';
+        cornImg.style.pointerEvents = 'none';
+        div.appendChild(cornImg);
       }
     }
 
