@@ -69,8 +69,29 @@ export function movePlayer(state, direction) {
   }
 
   const collected = state.corn.find(c => c.x === newX && c.y === newY);
-  const newCorn = state.corn.filter(c => c.x !== newX || c.y !== newY);
-  const newScore = state.score + (collected ? 1 : 0);
+  let newCorn = state.corn.filter(c => c.x !== newX || c.y !== newY);
+  let newScore = state.score;
+
+  if (collected) {
+    newScore += 1;
+
+    // Generate new corn at random empty spot
+    let newSpot = null;
+    const occupied = new Set(newCorn.map(c => `${c.x},${c.y}`));
+    occupied.add(`${newX},${newY}`); // Don't spawn on player
+
+    while (true) {
+      const randX = Math.floor(Math.random() * state.gridSize);
+      const randY = Math.floor(Math.random() * state.gridSize);
+      const key = `${randX},${randY}`;
+      if (!occupied.has(key)) {
+        newSpot = { x: randX, y: randY };
+        break;
+      }
+    }
+
+    newCorn.push(newSpot);
+  }
 
   return {
     ...state,
