@@ -1,5 +1,6 @@
 import { createGameState, getVisibleGridCells, movePlayer } from './game.js';
 
+const munchSound = new Audio('Assets/sounds/chicken_bite/munch1.mp3'); // adjust path if needed
 const container = document.getElementById('game-container');
 const hud = document.getElementById('hud');
 
@@ -53,8 +54,15 @@ function render() {
 
 // Direction handler
 function handleMove(direction) {
+  const prevScore = state.score;
   state = movePlayer(state, direction);
   render();
+
+  // Play munch sound if score increased
+  if (state.score > prevScore) {
+    munchSound.currentTime = 0; // rewind in case it's still playing
+    munchSound.play();
+  }
 }
 
 const keyMap = {
