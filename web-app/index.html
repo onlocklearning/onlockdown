@@ -7,16 +7,32 @@
   <body>
     <h1>Onlockdown</h1>
 
-    <div id="game-container"></div>
-
-    <div class="controls">
-      <button onmousedown="startHold('up')" onmouseup="stopHold()" onmouseleave="stopHold()" ontouchstart="startHold('up')" ontouchend="stopHold()">⬆️</button>
-      <div class="horizontal-controls">
-        <button onmousedown="startHold('left')" onmouseup="stopHold()" onmouseleave="stopHold()" ontouchstart="startHold('left')" ontouchend="stopHold()">⬅️</button>
-        <button onmousedown="startHold('down')" onmouseup="stopHold()" onmouseleave="stopHold()" ontouchstart="startHold('down')" ontouchend="stopHold()">⬇️</button>
-        <button onmousedown="startHold('right')" onmouseup="stopHold()" onmouseleave="stopHold()" ontouchstart="startHold('right')" ontouchend="stopHold()">➡️</button>
+    <div class="controls-grid">
+      <button class="control-button up" 
+              onmousedown="startHold('up')" 
+              onmouseup="stopHold()" 
+              onmouseleave="stopHold()">⬆️</button>
+    
+      <div class="side-controls">
+        <button class="control-button left" 
+                onmousedown="startHold('left')" 
+                onmouseup="stopHold()" 
+                onmouseleave="stopHold()">⬅️</button>
+    
+        <div id="game-container"></div>
+    
+        <button class="control-button right" 
+                onmousedown="startHold('right')" 
+                onmouseup="stopHold()" 
+                onmouseleave="stopHold()">➡️</button>
       </div>
+    
+      <button class="control-button down" 
+              onmousedown="startHold('down')" 
+              onmouseup="stopHold()" 
+              onmouseleave="stopHold()">⬇️</button>
     </div>
+    
 
     <script type="module" src="main.js"></script>
   </body>

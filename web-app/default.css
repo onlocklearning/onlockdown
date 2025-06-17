@@ -58,3 +58,36 @@ h1 {
   justify-content: center;
   gap: 10px;
 }
+
+.controls-grid {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 1rem;
+  gap: 1rem;
+}
+
+.side-controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.control-button {
+  font-size: 2rem;
+  padding: 1rem 1.5rem;
+  border-radius: 1rem;
+  border: none;
+  background-color: #ccc;
+  box-shadow: 0 0 10px rgba(0,0,0,0.2);
+  cursor: pointer;
+}
+
+.control-button:hover {
+  background-color: #ddd;
+}
+
+.control-button:active {
+  background-color: #bbb;
+}
