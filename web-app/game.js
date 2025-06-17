@@ -1,7 +1,7 @@
 export function createGameState() {
   return {
-    gridSize: 5,
-    playerPos: { x: 2, y: 2 } // center
+    gridSize: 50, // changed from 5 to 50
+    playerPos: { x: 25, y: 25 } // start roughly in the center
   };
 }
 

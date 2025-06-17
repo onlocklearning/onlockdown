@@ -8,60 +8,51 @@ body {
   }
   
   #game-container {
-    margin: 20px auto;
-    width: 300px;
-    height: 300px;
     display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    grid-template-rows: repeat(5, 1fr);
-    gap: 2px;
-    background: #222;
+    grid-template-columns: repeat(50, 18px); /* 50 columns */
+    gap: 1px;
+    margin: 10px auto;
+    width: fit-content;
   }
-    
+  
   .grid-cell {
-    background: #333;
-    border-radius: 4px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-weight: bold;
-    font-size: 1.2em;
-    color: #0f0;
+    width: 18px;
+    height: 18px;
+    background: rgb(47, 47, 47);
+    border: 1px solid #000000;
   }
-    
+  
   .player {
-    background: #0f0;
-    color: #000;
+    background: rgb(0, 255, 85);
   }
   
   .controls {
-    position: fixed;
-    bottom: 10px;
-    left: 50%;
-    transform: translateX(-50%);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 8px;
-  }
-  
-  .horizontal-controls {
-    display: flex;
-    gap: 8px;
-  }
-  
-  .controls button {
-    padding: 20px;
-    font-size: 24px;
-    border-radius: 12px;
-    border: none;
-    background-color: #fdd835;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.2);
-    cursor: pointer;
-  }
-  
-  .controls button:active {
-    background-color: #fbc02d;
-    transform: scale(0.95);
-  }
-  
+  position: fixed;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.horizontal-controls {
+  display: flex;
+  gap: 8px;
+}
+
+.controls button {
+  padding: 20px;
+  font-size: 24px;
+  border-radius: 12px;
+  border: none;
+  background-color: #fdd835;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+  cursor: pointer;
+}
+
+.controls button:active {
+  background-color: #fbc02d;
+  transform: scale(0.95);
+}
