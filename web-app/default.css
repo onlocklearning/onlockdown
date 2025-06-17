@@ -34,3 +34,34 @@ body {
     color: #000;
   }
   
+  .controls {
+    position: fixed;
+    bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+  }
+  
+  .horizontal-controls {
+    display: flex;
+    gap: 8px;
+  }
+  
+  .controls button {
+    padding: 20px;
+    font-size: 24px;
+    border-radius: 12px;
+    border: none;
+    background-color: #fdd835;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+    cursor: pointer;
+  }
+  
+  .controls button:active {
+    background-color: #fbc02d;
+    transform: scale(0.95);
+  }
+  
