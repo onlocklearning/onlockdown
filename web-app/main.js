@@ -88,6 +88,19 @@ window.stopHold = function() {
   buttonHoldInterval = null;
 };
 
+
+// Highlight arrow buttons briefly on load
+window.addEventListener('DOMContentLoaded', () => {
+  const arrows = document.querySelectorAll('.arrow-btn');
+  arrows.forEach(btn => btn.classList.add('pulsing'));
+
+  setTimeout(() => {
+    arrows.forEach(btn => btn.classList.remove('pulsing'));
+  }, 5000); // Stop pulsing after 5 seconds
+});
+
+
+
 // Initial render
 render();
 
