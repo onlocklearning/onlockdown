@@ -7,33 +7,25 @@
   <body>
     <h1>Onlockdown</h1>
 
-    <div class="controls-grid">
-      <button class="control-button up" 
-              onmousedown="startHold('up')" 
-              onmouseup="stopHold()" 
-              onmouseleave="stopHold()">⬆️</button>
+    <div class="full-controls">
+      <div class="click-zone top" onmousedown="startHold('up')" onmouseup="stopHold()" onmouseleave="stopHold()"></div>
     
-      <div class="side-controls">
-        <button class="control-button left" 
-                onmousedown="startHold('left')" 
-                onmouseup="stopHold()" 
-                onmouseleave="stopHold()">⬅️</button>
+      <div class="middle-row">
+        <div class="click-zone left" onmousedown="startHold('left')" onmouseup="stopHold()" onmouseleave="stopHold()"></div>
     
         <div id="game-container"></div>
     
-        <button class="control-button right" 
-                onmousedown="startHold('right')" 
-                onmouseup="stopHold()" 
-                onmouseleave="stopHold()">➡️</button>
+        <div class="click-zone right" onmousedown="startHold('right')" onmouseup="stopHold()" onmouseleave="stopHold()"></div>
       </div>
     
-      <button class="control-button down" 
-              onmousedown="startHold('down')" 
-              onmouseup="stopHold()" 
-              onmouseleave="stopHold()">⬇️</button>
+      <div class="click-zone bottom" onmousedown="startHold('down')" onmouseup="stopHold()" onmouseleave="stopHold()"></div>
+    </div>    
+    <div class="arrow-overlay">
+      <button class="arrow-btn up" onclick="handleMove('up')">⬆️</button>
+      <button class="arrow-btn left" onclick="handleMove('left')">⬅️</button>
+      <button class="arrow-btn right" onclick="handleMove('right')">➡️</button>
+      <button class="arrow-btn down" onclick="handleMove('down')">⬇️</button>
     </div>
-    
-
     <script type="module" src="main.js"></script>
   </body>
 </html>
