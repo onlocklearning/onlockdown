@@ -19,13 +19,17 @@
       </div>
     
       <div class="click-zone bottom" onmousedown="startHold('down')" onmouseup="stopHold()" onmouseleave="stopHold()"></div>
+
+      <div class="arrow-overlay">
+        <div class="arrow-wrapper up"><button class="arrow-btn pulsing">⬆️</button></div>
+        <div class="arrow-wrapper left"><button class="arrow-btn pulsing">⬅️</button></div>
+        <div class="arrow-wrapper right"><button class="arrow-btn pulsing">➡️</button></div>
+        <div class="arrow-wrapper down"><button class="arrow-btn pulsing">⬇️</button></div>
+            </div>
+
     </div>    
-    <div class="arrow-overlay">
-      <button class="arrow-btn up" onclick="handleMove('up')">⬆️</button>
-      <button class="arrow-btn left" onclick="handleMove('left')">⬅️</button>
-      <button class="arrow-btn right" onclick="handleMove('right')">➡️</button>
-      <button class="arrow-btn down" onclick="handleMove('down')">⬇️</button>
-    </div>
+
+
     <script type="module" src="main.js"></script>
   </body>
 </html>
