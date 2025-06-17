@@ -59,11 +59,12 @@ h1 {
   z-index: 2;
 }
 
-/* Uncomment below to see touch areas */
 
-.click-zone {
+
+/* Uncomment below to see touch areas */
+/* .click-zone {
   background-color: rgba(255, 0, 0, 0.2);
-}
+} */
 
 
 .click-zone.top {

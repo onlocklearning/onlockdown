@@ -1,6 +1,7 @@
 import { createGameState, getVisibleGridCells, movePlayer } from './game.js';
 
 const container = document.getElementById('game-container');
+const hud = document.getElementById('hud');
 
 let state = createGameState();
 
@@ -14,16 +15,27 @@ function render() {
     if (cell.hasPlayer) div.classList.add('player');
     if (cell.outOfBounds) div.classList.add('out-of-bounds');
 
-    // Add terrain look
+    // Terrain style
     if (!cell.outOfBounds) {
       if ((cell.x + cell.y) % 2 === 0) {
-        div.style.backgroundColor = '#3a5'; // green tile 1
+        div.style.backgroundColor = '#3a5';
       } else {
-        div.style.backgroundColor = '#4b6'; // green tile 2
+        div.style.backgroundColor = '#4b6';
+      }
+
+      // Show corn
+      if (cell.hasCorn) {
+        div.style.backgroundColor = 'gold';
       }
     }
+
     container.appendChild(div);
   });
+
+  // Update corn count in HUD
+  if (hud) {
+    hud.innerText = `🌽 Corn Collected: ${state.score}`;
+  }
 }
 
 // Direction handler
@@ -31,8 +43,6 @@ function handleMove(direction) {
   state = movePlayer(state, direction);
   render();
 }
-
-// --- Smooth continuous movement on key hold ---
 
 const keyMap = {
   ArrowUp: 'up',
@@ -45,20 +55,17 @@ let moveInterval = null;
 let currentDirection = null;
 
 window.addEventListener('keydown', (e) => {
-  if (!keyMap[e.key]) return; // Ignore other keys
+  if (!keyMap[e.key]) return;
 
-  if (currentDirection === keyMap[e.key]) return; // Already moving in this direction
+  if (currentDirection === keyMap[e.key]) return;
 
   currentDirection = keyMap[e.key];
-
-  // Immediately move once on keydown
   handleMove(currentDirection);
 
-  // Start interval to move repeatedly while key held down
   if (moveInterval) clearInterval(moveInterval);
   moveInterval = setInterval(() => {
     handleMove(currentDirection);
-  }, 150); // Adjust speed here (150 ms per move)
+  }, 150);
 });
 
 window.addEventListener('keyup', (e) => {
@@ -69,14 +76,12 @@ window.addEventListener('keyup', (e) => {
   }
 });
 
-// Button controls (for mobile)
 window.handleMove = handleMove;
 
-// Mobile/on-screen button hold support
 let buttonHoldInterval = null;
 
 window.startHold = function(direction) {
-  handleMove(direction); // move once immediately
+  handleMove(direction);
   if (buttonHoldInterval) clearInterval(buttonHoldInterval);
   buttonHoldInterval = setInterval(() => {
     handleMove(direction);
@@ -88,19 +93,13 @@ window.stopHold = function() {
   buttonHoldInterval = null;
 };
 
-
-// Highlight arrow buttons briefly on load
 window.addEventListener('DOMContentLoaded', () => {
   const arrows = document.querySelectorAll('.arrow-btn');
   arrows.forEach(btn => btn.classList.add('pulsing'));
 
   setTimeout(() => {
     arrows.forEach(btn => btn.classList.remove('pulsing'));
-  }, 5000); // Stop pulsing after 5 seconds
+  }, 5000);
 });
 
-
-
-// Initial render
 render();
-
