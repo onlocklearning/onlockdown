@@ -10,11 +10,11 @@
     <div id="game-container"></div>
 
     <div class="controls">
-      <button onclick="handleMove('up')">⬆️</button>
+      <button onmousedown="startHold('up')" onmouseup="stopHold()" onmouseleave="stopHold()" ontouchstart="startHold('up')" ontouchend="stopHold()">⬆️</button>
       <div class="horizontal-controls">
-        <button onclick="handleMove('left')">⬅️</button>
-        <button onclick="handleMove('down')">⬇️</button>
-        <button onclick="handleMove('right')">➡️</button>
+        <button onmousedown="startHold('left')" onmouseup="stopHold()" onmouseleave="stopHold()" ontouchstart="startHold('left')" ontouchend="stopHold()">⬅️</button>
+        <button onmousedown="startHold('down')" onmouseup="stopHold()" onmouseleave="stopHold()" ontouchstart="startHold('down')" ontouchend="stopHold()">⬇️</button>
+        <button onmousedown="startHold('right')" onmouseup="stopHold()" onmouseleave="stopHold()" ontouchstart="startHold('right')" ontouchend="stopHold()">➡️</button>
       </div>
     </div>
 

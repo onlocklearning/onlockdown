@@ -1,10 +1,12 @@
 import { createGameState, getVisibleGridCells, movePlayer } from './game.js';
 
 const container = document.getElementById('game-container');
+
 let state = createGameState();
 
 function render() {
   container.innerHTML = '';
+
   const cells = getVisibleGridCells(state);
   cells.forEach(cell => {
     const div = document.createElement('div');
@@ -20,7 +22,6 @@ function render() {
         div.style.backgroundColor = '#4b6'; // green tile 2
       }
     }
-
     container.appendChild(div);
   });
 }
@@ -31,22 +32,62 @@ function handleMove(direction) {
   render();
 }
 
-// Keyboard controls
-window.addEventListener('keydown', (e) => {
-  const keyMap = {
-    ArrowUp: 'up',
-    ArrowDown: 'down',
-    ArrowLeft: 'left',
-    ArrowRight: 'right'
-  };
+// --- Smooth continuous movement on key hold ---
 
-  if (keyMap[e.key]) {
-    handleMove(keyMap[e.key]);
+const keyMap = {
+  ArrowUp: 'up',
+  ArrowDown: 'down',
+  ArrowLeft: 'left',
+  ArrowRight: 'right'
+};
+
+let moveInterval = null;
+let currentDirection = null;
+
+window.addEventListener('keydown', (e) => {
+  if (!keyMap[e.key]) return; // Ignore other keys
+
+  if (currentDirection === keyMap[e.key]) return; // Already moving in this direction
+
+  currentDirection = keyMap[e.key];
+
+  // Immediately move once on keydown
+  handleMove(currentDirection);
+
+  // Start interval to move repeatedly while key held down
+  if (moveInterval) clearInterval(moveInterval);
+  moveInterval = setInterval(() => {
+    handleMove(currentDirection);
+  }, 150); // Adjust speed here (150 ms per move)
+});
+
+window.addEventListener('keyup', (e) => {
+  if (keyMap[e.key] && currentDirection === keyMap[e.key]) {
+    clearInterval(moveInterval);
+    moveInterval = null;
+    currentDirection = null;
   }
 });
 
 // Button controls (for mobile)
 window.handleMove = handleMove;
 
+// Mobile/on-screen button hold support
+let buttonHoldInterval = null;
+
+window.startHold = function(direction) {
+  handleMove(direction); // move once immediately
+  if (buttonHoldInterval) clearInterval(buttonHoldInterval);
+  buttonHoldInterval = setInterval(() => {
+    handleMove(direction);
+  }, 150);
+};
+
+window.stopHold = function() {
+  clearInterval(buttonHoldInterval);
+  buttonHoldInterval = null;
+};
+
 // Initial render
 render();
+
