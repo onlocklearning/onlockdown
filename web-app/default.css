@@ -37,18 +37,19 @@ h1 {
 }
 
 .grid-cell {
+  background-color: #ffffff; /* same stable background */
+
   width: 80px;
   height: 80px;
   box-sizing: border-box;
-  border: 0.5px solid #33333384; 
+  border: 0.2px solid #000000ab; 
   display: inline-block;
-  background-image: url(/web-app/assets/grid_tiles/images/)
 }
 
-.player {
+/* .player {
   background: yellow;
   border: 2px solid white;
-}
+} */
 
 .out-of-bounds {
   background: black;
