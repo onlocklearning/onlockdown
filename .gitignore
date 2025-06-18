@@ -1,2 +1,3 @@
 node_modules
 .directory
+web-app/assets/grid_tiles/tile_*.png

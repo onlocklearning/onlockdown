@@ -40,8 +40,9 @@ h1 {
   width: 80px;
   height: 80px;
   box-sizing: border-box;
-  border: 1px solid #333;
+  border: 0.5px solid #33333384; 
   display: inline-block;
+  background-image: url(/web-app/assets/grid_tiles/images/)
 }
 
 .player {
