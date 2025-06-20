@@ -1,8 +1,62 @@
 import { createGameState, getVisibleGridCells, movePlayer } from './game.js';
+import { mathQuestions } from './mathQuestions.js';
 
 const munchSound = new Audio('assets/sounds/chicken_bite/munch1.mp3');
 const container = document.getElementById('game-container');
 const hud = document.getElementById('hud');
+
+
+let currentQuestion = null;      // Store the current math question object
+let answerTiles = [];            // Store which grid squares hold which answer
+
+
+
+function startMathChallenge() {
+  // 1. Pick a random math question
+  const questionObj = mathQuestions[Math.floor(Math.random() * mathQuestions.length)];
+  currentQuestion = questionObj;
+
+  // 2. Build array of answers (1 correct, 3 wrong)
+  const options = [
+    { text: questionObj.answer, isCorrect: true },
+    ...questionObj.wrongAnswers.map(text => ({ text, isCorrect: false }))
+  ];
+
+  // 3. Shuffle answers so their order is random
+  for (let i = options.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [options[i], options[j]] = [options[j], options[i]];
+  }
+
+  // 4. Get all visible cells that are empty
+  const cells = getVisibleGridCells(state).filter(c => !c.outOfBounds && !(c.hasPlayer));
+  const chosenCells = [];
+
+  // 5. Pick 4 random grid squares to place answers on
+  while (chosenCells.length < 4 && cells.length > 0) {
+    const index = Math.floor(Math.random() * cells.length);
+    chosenCells.push(cells.splice(index, 1)[0]);
+  }
+
+  // 6. Combine grid location + answer into objects
+  answerTiles = chosenCells.map((cell, i) => ({
+    ...cell,
+    ...options[i]
+  }));
+
+  // 7. Re-render the grid with answers shown
+  render();
+}
+
+
+
+
+
+
+
+
+
+
 
 let state = createGameState();
 const GRID_SIZE = 11;
@@ -83,6 +137,16 @@ async function render() {
     // Remove all children except the tile background image (index 0)
     while (div.childNodes.length > 1) {
       div.removeChild(div.lastChild);
+    }
+
+    // Check if this cell has an answer on it
+    const answer = answerTiles.find(tile => tile.x === cell.x && tile.y === cell.y);
+
+    if (answer) {
+      const answerDiv = document.createElement('div');
+      answerDiv.innerText = answer.text;
+      answerDiv.classList.add('answer-label');
+      div.appendChild(answerDiv);
     }
 
     // Add corn image if present
@@ -192,4 +256,7 @@ window.addEventListener('DOMContentLoaded', () => {
   setTimeout(() => {
     arrows.forEach((btn) => btn.classList.remove('pulsing'));
   }, 5000);
+
+  document.getElementById('start-challenge-btn').addEventListener('click', startMathChallenge);
+
 });

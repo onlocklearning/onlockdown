@@ -4,12 +4,35 @@
   <title>Onlockdown</title>
   <link rel="stylesheet" href="default.css">
   <link rel="icon" href="./assets/images/favicon.jpeg">
+  <!-- MathJax for LaTeX rendering -->
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id="MathJax-script" async
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
   <body>
     <h1>Onlockdown</h1>
 
     <div id="hud" style="font-size: 1.5rem; margin-bottom: 10px;">
       🌽 Corn Collected: 0
     </div>
+    <button id="start-challenge-btn">🎯 Start Math Challenge</button>
+    <style>
+      #start-challenge-btn {
+        position: absolute;
+        top: 10px;
+        left: 10px;
+        z-index: 10;
+        padding: 10px 15px;
+        font-size: 16px;
+        background: gold;
+        border: 2px solid #444;
+        border-radius: 8px;
+        cursor: pointer;
+        font-weight: bold;
+      }
+    </style>
+    
+
     <div class="full-controls">
       <div class="click-zone top" onmousedown="startHold('up')" onmouseup="stopHold()" onmouseleave="stopHold()"></div>
     

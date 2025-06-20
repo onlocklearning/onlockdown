@@ -1,7 +1,7 @@
 body {
   font-family: Arial, sans-serif;
   text-align: center;
-  background: #111;
+  background: #1e1e1e;
   color: white;
   margin: 0;
   overflow: hidden;
@@ -38,12 +38,26 @@ h1 {
 
 .grid-cell {
   background-color: #ffffff; /* same stable background */
-
   width: 80px;
   height: 80px;
   box-sizing: border-box;
   border: 0.2px solid #000000ab; 
   display: inline-block;
+}
+
+.grid-cell button {
+  font-size: 1rem;
+  padding: 5px 10px;
+  border: none;
+  background: #444;
+  color: white;
+  border-radius: 6px;
+  pointer-events: auto;
+  z-index: 4;
+}
+
+.grid-cell button:hover {
+  background: #666;
 }
 
 /* .player {
@@ -52,7 +66,7 @@ h1 {
 } */
 
 .out-of-bounds {
-  background: black;
+  background: rgb(0, 0, 0);
 }
 
 /* Directional click zones */
@@ -248,3 +262,90 @@ h1 {
   object-fit: contain;
   pointer-events: none;
 }
+
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.85);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+}
+
+.hidden {
+  display: none;
+}
+
+.modal-content {
+  background: #222;
+  padding: 20px;
+  border-radius: 12px;
+  text-align: center;
+  color: white;
+  max-width: 90%;
+}
+
+.options {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-top: 15px;
+  gap: 10px;
+}
+
+.options button {
+  background: #444;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  font-size: 1.2rem;
+}
+
+.options button:hover {
+  background: #666;
+}
+
+#math-timer {
+  margin-top: 10px;
+  font-size: 1.3rem;
+  color: #ccc;
+}
+
+.math-tile-button {
+  position: absolute;
+  z-index: 5;
+  width: 70px;
+  height: 70px;
+  border-radius: 10px;
+  font-size: 1.2rem;
+  cursor: pointer;
+}
+.math-correct {
+  background: #4caf50;
+}
+.math-wrong {
+  background: #f44336;
+}
+
+.answer-label {
+  position: absolute;
+  z-index: 4;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 18px;
+  font-weight: bold;
+  color: black;
+  background-color: rgba(255,255,255,0.8);
+  padding: 4px 8px;
+  border-radius: 8px;
+  pointer-events: none;
+  user-select: none;
+}
+
