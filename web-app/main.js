@@ -50,14 +50,6 @@ function startMathChallenge() {
 
 
 
-
-
-
-
-
-
-
-
 let state = createGameState();
 const GRID_SIZE = 11;
 const cellElements = []; // 2D array of divs [row][col]
@@ -81,24 +73,10 @@ function createGrid() {
     for (let col = 0; col < GRID_SIZE; col++) {
       const div = document.createElement('div');
       div.classList.add('grid-cell');
-      // div.style.position = 'relative';
-      // div.style.width = '80px';
-      // div.style.height = '80px';
-      // div.style.overflow = 'hidden';
 
       // Create tile background image once and append
       const tileImg = document.createElement('img');
       tileImg.classList.add('grid-tile-img');
-
-      // Object.assign(tileImg.style, {
-      //   position: 'absolute',
-      //   top: '0',
-      //   left: '0',
-      //   width: '80px',
-      //   height: '80px',
-      //   objectFit: 'cover',
-      //   pointerEvents: 'none',
-      // });
       div.appendChild(tileImg);
 
       container.appendChild(div);
@@ -149,19 +127,6 @@ async function render() {
       const span = document.createElement('span');
       span.innerHTML = `\\(${answer.text}\\)`; // MathJax inline format
       span.classList.add('answer-label');
-
-      // Object.assign(span.style, {
-      //   position: 'absolute',
-      //   top: '5px',
-      //   left: '5px',
-      //   background: 'rgba(255,255,255,0.85)',
-      //   padding: '4px 6px',
-      //   borderRadius: '6px',
-      //   fontSize: '16px',
-      //   zIndex: '5',
-      //   pointerEvents: 'none',
-      // });
-    
       div.appendChild(span);
     }
 
@@ -171,15 +136,6 @@ async function render() {
       cornImg.src = './assets/corn.webp';
       cornImg.alt = 'Corn';
       cornImg.classList.add('corn-img');
-
-      // Object.assign(cornImg.style, {
-      //   width: '60px',
-      //   height: '60px',
-      //   position: 'absolute',
-      //   zIndex: '2',
-      //   userSelect: 'none',
-      //   pointerEvents: 'none',
-      // });
       div.appendChild(cornImg);
     }
 
