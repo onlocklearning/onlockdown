@@ -1,8 +1,10 @@
+/* ========================================
+   GENERAL STYLES
+======================================== */
 body {
   font-family: Arial, sans-serif;
-  text-align: center;
   background: #1e1e1e;
-  color: rgb(0, 0, 0);
+  color: black;
   margin: 0;
   overflow: hidden;
   display: flex;
@@ -10,6 +12,7 @@ body {
   align-items: center;
   justify-content: center;
   height: 100vh;
+  text-align: center;
 }
 
 h1 {
@@ -17,7 +20,9 @@ h1 {
   font-size: 2rem;
 }
 
-/* Container for grid and touch zones */
+/* ========================================
+   GAME CONTAINER & GRID
+======================================== */
 .full-controls {
   position: relative;
   width: calc(80px * 11);
@@ -38,28 +43,20 @@ h1 {
 
 .grid-cell {
   position: relative;
-  background-color: #ffffff; /* same stable background */
   width: 80px;
   height: 80px;
+  background-color: #fff;
+  border: 0.2px solid #000000ab;
   box-sizing: border-box;
   overflow: hidden;
-  border: 0.2px solid #000000ab; 
   display: inline-block;
 }
 
-.grid-cell button {
-  font-size: 1rem;
-  padding: 5px 10px;
-  border: none;
-  background: #444;
-  color: white;
-  border-radius: 6px;
-  pointer-events: auto;
-  z-index: 4;
-}
-
-.grid-cell button:hover {
-  background: #666;
+.grid-cell img {
+  display: block;
+  margin: auto;
+  pointer-events: none;
+  user-select: none;
 }
 
 .grid-tile-img {
@@ -72,59 +69,49 @@ h1 {
   pointer-events: none;
 }
 
-
-/* .player {
-  background: yellow;
-  border: 2px solid white;
-} */
-
 .out-of-bounds {
-  background: rgb(0, 0, 0);
+  background: #000;
 }
 
-/* Directional click zones */
-.click-zone {
+/* ========================================
+   PLAYER, CORN, AND CHICKEN
+======================================== */
+.chicken-img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  pointer-events: none;
+  z-index: 3;
+}
+
+.corn-img {
+  width: 60px;
+  height: 60px;
   position: absolute;
   z-index: 2;
+  pointer-events: none;
+  user-select: none;
+}
+
+/* ========================================
+   MATH & LABELS
+======================================== */
+.answer-label {
+  position: absolute;
+  top: 5px;
+  left: 5px;
+  background: rgba(255, 255, 255, 0.85);
+  padding: 4px 6px;
+  border-radius: 6px;
+  font-size: 16px;
+  z-index: 5;
+  pointer-events: none;
 }
 
 
-
-/* Uncomment below to see touch areas */
-/* .click-zone {
-  background-color: rgba(255, 0, 0, 0.2);
-} */
-
-
-.click-zone.top {
-  top: 0;
-  left: 0;
-  height: 25%;
-  width: 100%;
-}
-
-.click-zone.bottom {
-  bottom: 0;
-  left: 0;
-  height: 25%;
-  width: 100%;
-}
-
-.click-zone.left {
-  top: 25%;
-  left: 0;
-  height: 50%;
-  width: 25%;
-}
-
-.click-zone.right {
-  top: 25%;
-  right: 0;
-  height: 50%;
-  width: 25%;
-}
-
-/* Existing controls */
+/* ========================================
+   CONTROLS (DIRECTIONAL & TOUCH)
+======================================== */
 .controls {
   margin-top: 20px;
 }
@@ -171,7 +158,7 @@ h1 {
   border-radius: 1rem;
   border: none;
   background-color: #ccc;
-  box-shadow: 0 0 10px rgba(0,0,0,0.2);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
   cursor: pointer;
 }
 
@@ -183,6 +170,47 @@ h1 {
   background-color: #bbb;
 }
 
+/* ========================================
+   TOUCH ZONES
+======================================== */
+.click-zone {
+  position: absolute;
+  z-index: 2;
+  /* Uncomment below to see touch zones:
+  background-color: rgba(255, 0, 0, 0.2); */
+}
+
+.click-zone.top {
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 25%;
+}
+
+.click-zone.bottom {
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 25%;
+}
+
+.click-zone.left {
+  top: 25%;
+  left: 0;
+  width: 25%;
+  height: 50%;
+}
+
+.click-zone.right {
+  top: 25%;
+  right: 0;
+  width: 25%;
+  height: 50%;
+}
+
+/* ========================================
+   ARROW OVERLAYS
+======================================== */
 .arrow-overlay {
   position: absolute;
   top: 0;
@@ -196,34 +224,14 @@ h1 {
   justify-content: center;
 }
 
-
-.arrow-btn {
-  width: 120px;
-  height: 120px;
-  font-size: 2rem;
-  background: rgba(255, 255, 255, 0.6);
-  border: none;
-  border-radius: 50%;
-  z-index: 10;
-  transition: transform 0.1s ease;
-  pointer-events: none; /* keep this so the click zone is reachable */
-}
-
-
-.arrow-btn:active {
-  transform: scale(0.9);
-}
-
-/* Positioning */
 .arrow-wrapper {
   position: absolute;
   width: 180px;
   height: 180px;
-  pointer-events: none; /* still lets clicks through */
-  /* background-color: aqua; */
+  pointer-events: none;
   display: flex;
-  justify-content: center;
   align-items: center;
+  justify-content: center;
 }
 
 .arrow-wrapper.up {
@@ -250,121 +258,28 @@ h1 {
   transform: translateY(-50%);
 }
 
+.arrow-btn {
+  width: 120px;
+  height: 120px;
+  font-size: 2rem;
+  background: rgba(255, 255, 255, 0.6);
+  border: none;
+  border-radius: 50%;
+  z-index: 10;
+  transition: transform 0.1s ease;
+  pointer-events: none;
+}
 
-@keyframes pulse {
-  0% { transform: scale(1); opacity: 0.8; }
-  50% { transform: scale(1.15); opacity: 1; }
-  100% { transform: scale(1); opacity: 0.8; }
+.arrow-btn:active {
+  transform: scale(0.9);
 }
 
 .arrow-btn.pulsing {
   animation: pulse 1s ease-in-out infinite;
 }
 
-/* this is for the corn */
-.grid-cell img {
-  display: block;
-  margin: auto;
-  pointer-events: none;
-  user-select: none;
+@keyframes pulse {
+  0%   { transform: scale(1); opacity: 0.8; }
+  50%  { transform: scale(1.15); opacity: 1; }
+  100% { transform: scale(1); opacity: 0.8; }
 }
-
-.chicken-img {
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-  pointer-events: none;
-}
-
-.corn-img {
-  width: 60px;
-  height: 60px;
-  position: absolute;
-  z-index: 2;
-  user-select: none;
-  pointer-events: none;
-}
-
-.modal {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0,0,0,0.85);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 100;
-}
-
-.hidden {
-  display: none;
-}
-
-.modal-content {
-  background: #222;
-  padding: 20px;
-  border-radius: 12px;
-  text-align: center;
-  color: white;
-  max-width: 90%;
-}
-
-.options {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  margin-top: 15px;
-  gap: 10px;
-}
-
-.options button {
-  background: #444;
-  color: white;
-  padding: 10px 20px;
-  border-radius: 8px;
-  border: none;
-  cursor: pointer;
-  font-size: 1.2rem;
-}
-
-.options button:hover {
-  background: #666;
-}
-
-#math-timer {
-  margin-top: 10px;
-  font-size: 1.3rem;
-  color: #ccc;
-}
-
-.math-tile-button {
-  position: absolute;
-  z-index: 5;
-  width: 70px;
-  height: 70px;
-  border-radius: 10px;
-  font-size: 1.2rem;
-  cursor: pointer;
-}
-.math-correct {
-  background: #4caf50;
-}
-.math-wrong {
-  background: #f44336;
-}
-
-.answer-label {
-  position: absolute;
-  top: 5px;
-  left: 5px;
-  background: rgba(255, 255, 255, 0.85);
-  padding: 4px 6px;
-  border-radius: 6px;
-  font-size: 16px;
-  z-index: 5;
-  pointer-events: none;
-}
-
-
