@@ -109,7 +109,33 @@ h1 {
   z-index: 2;
   pointer-events: none;
 }
+.speech-modal {
+  position: absolute;
+  z-index: 100;
+  background: #fff;
+  color: #000;
+  padding: 10px 14px;
+  border-radius: 14px;
+  border: 2px solid #444;
+  font-size: 1.2rem;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+  white-space: nowrap;
+  transition: opacity 0.3s ease;
+}
 
+.speech-modal::after {
+  content: '';
+  position: absolute;
+  bottom: -12px;
+  left: 20px;
+  border-width: 12px;
+  border-style: solid;
+  border-color: #fff transparent transparent transparent;
+}
+
+.speech-modal.hidden {
+  display: none;
+}
 
 /* ========================================
    CONTROLS (DIRECTIONAL & TOUCH)

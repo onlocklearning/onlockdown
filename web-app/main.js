@@ -46,6 +46,9 @@ function startMathChallenge() {
 
   // 7. Re-render the grid with answers shown
   render();
+  
+  showSpeechBubble(questionObj.question);
+
 }
 
 
@@ -145,12 +148,6 @@ async function render() {
       chicken.src = 'assets/chicken.webp';
       chicken.alt = 'chicken';
       chicken.classList.add('chicken-img');
-      Object.assign(chicken.style, {
-        width: '60px',
-        height: '60px',
-        position: 'absolute',
-        zIndex: '3',
-      });
       div.appendChild(chicken);
     }
   }
@@ -166,6 +163,32 @@ async function render() {
 }
 
 
+function showSpeechBubble(text) {
+  const bubble = document.getElementById("question-bubble");
+  const speechText = document.getElementById("speech-text");
+
+  // Find the chicken's position in pixels
+  const chickenEl = document.querySelector('.chicken-img');
+  if (!chickenEl) return;
+
+  const rect = chickenEl.getBoundingClientRect();
+
+  const bubbleWidth = 200;
+  const offsetY = 70;
+
+  bubble.style.left = `${rect.left + rect.width / 2 - bubbleWidth / 2}px`;
+  bubble.style.top = `${rect.top - offsetY}px`;
+  bubble.style.width = `${bubbleWidth}px`;
+
+  speechText.textContent = text;
+  bubble.classList.remove("hidden");
+}
+
+
+function hideSpeechBubble() {
+  const bubble = document.getElementById("question-bubble");
+  bubble.classList.add("hidden");
+}
 
 
 
@@ -179,7 +202,30 @@ function handleMove(direction) {
     munchSound.currentTime = 0;
     munchSound.play();
   }
-}
+
+      // Check if player just stepped on a correct answer
+      const playerCell = getVisibleGridCells(state).find(c => c.hasPlayer);
+      const answer = answerTiles.find(tile => tile.x === playerCell.x && tile.y === playerCell.y);
+  
+      if (answer) {
+        // Remove question bubble
+        hideSpeechBubble();
+  
+        // Clear the answerTiles so they don't keep showing
+        answerTiles = [];
+  
+        // Optional: do something with correct/incorrect
+        if (answer.isCorrect) {
+          console.log("✅ Correct!");
+        } else {
+          console.log("❌ Incorrect!");
+        }
+  
+        render(); // re-render to remove answer labels
+      }
+    }
+  
+
 
 const keyMap = {
   ArrowUp: 'up',
