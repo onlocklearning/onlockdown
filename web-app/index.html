@@ -12,9 +12,15 @@
   <body>
     <h1>Onlockdown</h1>
 
+    <div id="start-screen" class="overlay">
+      <h1>Welcome to Chicken Math!</h1>
+      <button id="start-game-btn">Start Game</button>
+    </div>
+
     <div id="hud" style="font-size: 1.5rem; margin-bottom: 10px;">
       🌽 Corn Collected: 0
     </div>
+
     <button id="start-challenge-btn">🎯 Start Math Challenge</button>
     <style>
       #start-challenge-btn {
@@ -57,6 +63,7 @@
     <div id="question-bubble" class="speech-modal hidden">
       <div class="speech-content" id="speech-text">What’s 7 + 5?</div>
     </div>  
+    <button id="die-btn" style="margin-top: 1rem;">Die (Reset Game)</button>
 
     <script type="module" src="main.js"></script>
   </body>

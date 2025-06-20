@@ -5,9 +5,36 @@ const munchSound = new Audio('assets/sounds/chicken_bite/munch1.mp3');
 const container = document.getElementById('game-container');
 const hud = document.getElementById('hud');
 
+const startScreen = document.getElementById('start-screen');
+const startBtn = document.getElementById('start-game-btn');
 
 let currentQuestion = null;      // Store the current math question object
 let answerTiles = [];            // Store which grid squares hold which answer
+
+
+let gameStarted = false;
+
+function startGame() {
+  startScreen.style.display = 'none';  // hide start screen
+  state = createGameState();            // reset game state
+  render();                            // render initial game
+  // You can also enable controls here if they are disabled initially
+  gameStarted = true;  // This line enables controls
+}
+
+startBtn.addEventListener('click', startGame);
+
+// Initially, show start screen and don't start the game loop until clicked
+window.addEventListener('DOMContentLoaded', () => {
+  createGrid();
+  render();
+
+  // Show start screen by default
+  startScreen.style.display = 'flex';
+
+  // Optionally disable controls or movement until game starts
+});
+
 
 
 
@@ -50,6 +77,7 @@ function startMathChallenge() {
   showSpeechBubble(questionObj.question);
 
 }
+
 
 
 
@@ -165,23 +193,17 @@ async function render() {
 
 function showSpeechBubble(text) {
   const bubble = document.getElementById("question-bubble");
-  const speechText = document.getElementById("speech-text");
+  const chickenCell = getVisibleGridCells(state).find(c => c.hasPlayer);
 
-  // Find the chicken's position in pixels
-  const chickenEl = document.querySelector('.chicken-img');
-  if (!chickenEl) return;
-
-  const rect = chickenEl.getBoundingClientRect();
-
-  const bubbleWidth = 200;
-  const offsetY = 70;
-
-  bubble.style.left = `${rect.left + rect.width / 2 - bubbleWidth / 2}px`;
-  bubble.style.top = `${rect.top - offsetY}px`;
-  bubble.style.width = `${bubbleWidth}px`;
-
-  speechText.textContent = text;
+  if (!chickenCell) return;
+  bubble.innerHTML = `\\(${text}\\)?`; // LaTeX inline format
   bubble.classList.remove("hidden");
+
+  // Re-render MathJax
+  if (window.MathJax && MathJax.typesetPromise) {
+    MathJax.typesetPromise([bubble])
+      .catch((err) => console.error("MathJax bubble render error:", err));
+  }
 }
 
 
@@ -194,6 +216,8 @@ function hideSpeechBubble() {
 
 // Handle player movement
 function handleMove(direction) {
+  if (!gameStarted) return;  // ignore moves until game started
+
   const prevScore = state.score;
   state = movePlayer(state, direction);
   render();
