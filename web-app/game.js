@@ -13,7 +13,9 @@ export function createGameState() {
     gridSize,
     playerPos,
     corn,
-    score
+    score,
+    facing: 'down'  // ← new default direction
+
   };
 }
 
@@ -29,7 +31,7 @@ function generateCorn(count, gridSize) {
     const [x, y] = str.split(',').map(Number);
   
     // Generate consistent per-corn style
-    const rotation = (Math.random() * 30) - 15;   // -15 to +15 degrees
+    const rotation = (Math.random() * 160) - 15;   // -15 to +15 degrees
     const scale = 0.9 + Math.random() * 0.2;      // 0.9 to 1.1 scale
   
     return { x, y, cornStyle: { rotation, scale } };
@@ -102,6 +104,8 @@ export function movePlayer(state, direction) {
     ...state,
     playerPos: { x: newX, y: newY },
     corn: newCorn,
-    score: newScore
+    score: newScore,
+    facing: direction // ← this sets the facing to last moved direction
+
   };
 }

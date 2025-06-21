@@ -1,3 +1,50 @@
+
+/* ========================================
+   FONTS
+======================================== */
+/* Onest */
+@font-face {
+  font-family: 'onest-black';
+  src: url('fonts/onest/TTF/OnestBlack1602-hint.ttf') format('truetype');
+  font-weight: 900; /* black */
+  font-style: normal;
+}
+
+
+@font-face {
+  font-family: 'onest-black';
+  src: url('fonts/onest/TTF/OnestMedium1602-hint.ttf') format('truetype');
+  font-weight: 500; /* medium */
+  font-style: normal;
+}
+
+
+@font-face {
+  font-family: 'onest-black';
+  src: url('fonts/onest/TTF/OnestRegular1602-hint.ttf') format('truetype');
+  font-weight: 300; /* medium */
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'onest-black';
+  src: url('fonts/onest/TTF/OnestLight1602-hint.ttf') format('truetype');
+  font-weight: 200; /* medium */
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'onest-black';
+  src: url('fonts/onest/TTF/OnestThin1602-hint.ttf') format('truetype');
+  font-weight: 100; /* Thin */
+  font-style: normal;
+}
+
+/* Inter */
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+
+
+
 /* ========================================
    GENERAL STYLES
 ======================================== */
@@ -19,6 +66,8 @@ h1 {
   margin-top: 10px;
   font-size: 2rem;
 }
+
+
 
 /* ========================================
    START SCREEN

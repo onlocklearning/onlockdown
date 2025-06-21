@@ -209,7 +209,8 @@ async function render() {
     // Add player (chicken) image if present
     if (cell.hasPlayer) {
       const chicken = document.createElement('img');
-      chicken.src = 'assets/images/chicken/chicken_up.png';
+      const facing = state.facing || 'down'; // fallback if missing
+      chicken.src = `assets/images/chicken/chicken_${facing}.png`;
       chicken.alt = 'chicken';
       chicken.classList.add('chicken-img');
       div.appendChild(chicken);
