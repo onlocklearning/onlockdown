@@ -1,6 +1,9 @@
 import { createGameState, getVisibleGridCells, movePlayer } from './game.js';
 import { mathQuestions } from './mathQuestions.js';
 
+const correctSound = new Audio('assets/sounds/correct/correct_1.mp3');
+const incorrectSound = new Audio('assets/sounds/wrong/wrong_1.mp3');
+
 const munchSound = new Audio('assets/sounds/chicken_bite/munch1.mp3');
 const container = document.getElementById('game-container');
 const hud = document.getElementById('hud');
@@ -16,10 +19,10 @@ let gameStarted = false;
 
 function startGame() {
   startScreen.style.display = 'none';  // hide start screen
+  container.style.display = 'flex';    // <-- add this line to show game container
   state = createGameState();            // reset game state
   render();                            // render initial game
-  // You can also enable controls here if they are disabled initially
-  gameStarted = true;  // This line enables controls
+  gameStarted = true;
 }
 
 startBtn.addEventListener('click', startGame);
@@ -36,9 +39,34 @@ window.addEventListener('DOMContentLoaded', () => {
 });
 
 
+function resetGame() {
+  // Reset your game state here
+  state = createGameState();
+
+  // Hide game container, show start screen again
+  document.getElementById('game-container').style.display = 'none';
+  document.getElementById('start-screen').style.display = 'flex';
+
+  // Hide speech bubble if visible
+  const bubble = document.querySelector('.speech-modal');
+  if (bubble) {
+    bubble.style.display = 'none';  // hides bubble by inline style
+  }
+
+  // Reset score or other HUD elements if needed
+  document.getElementById('hud').innerText = '';
+}
+
+
 
 
 function startMathChallenge() {
+  if (!gameStarted) {
+    startScreen.style.display = 'none';
+    container.style.display = 'flex';
+    gameStarted = true;
+  }
+
   // 1. Pick a random math question
   const questionObj = mathQuestions[Math.floor(Math.random() * mathQuestions.length)];
   currentQuestion = questionObj;
@@ -193,18 +221,20 @@ async function render() {
 
 function showSpeechBubble(text) {
   const bubble = document.getElementById("question-bubble");
-  const chickenCell = getVisibleGridCells(state).find(c => c.hasPlayer);
 
-  if (!chickenCell) return;
-  bubble.innerHTML = `\\(${text}\\)?`; // LaTeX inline format
+  bubble.innerHTML = `\\(${text}\\)?`;
+
+  // Remove any inline 'display: none' so it becomes visible
+  bubble.style.display = '';
+
   bubble.classList.remove("hidden");
 
-  // Re-render MathJax
   if (window.MathJax && MathJax.typesetPromise) {
     MathJax.typesetPromise([bubble])
       .catch((err) => console.error("MathJax bubble render error:", err));
   }
 }
+
 
 
 function hideSpeechBubble() {
@@ -241,8 +271,11 @@ function handleMove(direction) {
         // Optional: do something with correct/incorrect
         if (answer.isCorrect) {
           console.log("✅ Correct!");
+          correctSound.play();
         } else {
           console.log("❌ Incorrect!");
+          incorrectSound.play();
+
         }
   
         render(); // re-render to remove answer labels
@@ -312,4 +345,12 @@ window.addEventListener('DOMContentLoaded', () => {
 
   document.getElementById('start-challenge-btn').addEventListener('click', startMathChallenge);
 
+});
+
+window.addEventListener('DOMContentLoaded', () => {
+  // existing setup...
+
+  // Add die button listener
+  const dieBtn = document.getElementById('die-btn');
+  dieBtn.addEventListener('click', resetGame);
 });

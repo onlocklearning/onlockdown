@@ -2,7 +2,7 @@ from PIL import Image
 import os
 
 # === CONFIG ===
-source_image_path = 'web-app/assets/images/test_backdrop.png'  # Replace with your big backdrop image
+source_image_path = 'web-app/assets/images/gymtest2.png'  # Replace with your big backdrop image
 output_folder = 'web-app/assets/grid_tiles'
 grid_size = 50  # 50x50 grid
 
