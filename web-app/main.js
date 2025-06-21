@@ -192,16 +192,24 @@ async function render() {
     // Add corn image if present
     if (cell.hasCorn) {
       const cornImg = document.createElement('img');
-      cornImg.src = './assets/corn.webp';
+      cornImg.src = './assets/images/corn/corn.png';
       cornImg.alt = 'Corn';
       cornImg.classList.add('corn-img');
+
+      // Apply a random rotation between -15 and +15 degrees
+
+      const angle = cell.cornStyle?.rotation ?? 0;
+      const scale = cell.cornStyle?.scale ?? 1;
+      cornImg.style.transform = `rotate(${angle}deg) scale(${scale})`;
+    
+
       div.appendChild(cornImg);
     }
 
     // Add player (chicken) image if present
     if (cell.hasPlayer) {
       const chicken = document.createElement('img');
-      chicken.src = 'assets/chicken.webp';
+      chicken.src = 'assets/images/chicken/chicken_up.png';
       chicken.alt = 'chicken';
       chicken.classList.add('chicken-img');
       div.appendChild(chicken);

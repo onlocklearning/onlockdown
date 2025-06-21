@@ -27,7 +27,12 @@ function generateCorn(count, gridSize) {
 
   return Array.from(cornSet).map(str => {
     const [x, y] = str.split(',').map(Number);
-    return { x, y };
+  
+    // Generate consistent per-corn style
+    const rotation = (Math.random() * 30) - 15;   // -15 to +15 degrees
+    const scale = 0.9 + Math.random() * 0.2;      // 0.9 to 1.1 scale
+  
+    return { x, y, cornStyle: { rotation, scale } };
   });
 }
 
@@ -41,16 +46,16 @@ export function getVisibleGridCells(state) {
       const x = state.playerPos.x + dx;
       const y = state.playerPos.y + dy;
 
-      const hasCorn = state.corn.some(c => c.x === x && c.y === y);
+      const cornObj = state.corn.find(c => c.x === x && c.y === y);
 
       cells.push({
         x,
         y,
         hasPlayer: dx === 0 && dy === 0,
         outOfBounds: x < 0 || y < 0 || x >= state.gridSize || y >= state.gridSize,
-        hasCorn
-      });
-    }
+        hasCorn: !!cornObj,
+        cornStyle: cornObj?.cornStyle
+      });    }
   }
 
   return cells;
