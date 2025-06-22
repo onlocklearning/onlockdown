@@ -352,6 +352,9 @@ const keyMap = {
 let moveInterval = null;
 let currentDirection = null;
 
+
+document.getElementById('lose-life-btn').addEventListener('click', loseLife);
+
 window.addEventListener('keydown', (e) => {
   if (!keyMap[e.key]) return;
   if (currentDirection === keyMap[e.key]) return;
