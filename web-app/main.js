@@ -37,6 +37,9 @@ let hasTriggeredAnswer = false; // Allow movement, but prevent multiple answers
 let questionTimer = null;
 let questionTimeRemaining = 0;
 
+let countdownInterval = null;
+
+
 function startGame() {
   startScreen.style.display = 'none';  // hide start screen
   container.style.display = 'flex';    // <-- add this line to show game container
@@ -104,6 +107,9 @@ function startMathChallenge() {
   const questionObj = mathQuestions[Math.floor(Math.random() * mathQuestions.length)];
   currentQuestion = questionObj;
 
+  startCountdown(Math.floor(questionObj.timeLimit / 1000));
+
+
   // 2. Build array of answers (1 correct, 3 wrong)
   const options = [
     { text: questionObj.answer, isCorrect: true },
@@ -149,6 +155,7 @@ function startMathChallenge() {
     hasTriggeredAnswer = false;
 
     hideSpeechBubble();
+    hideTimer();
     render();
 
   }, questionTimeRemaining);
@@ -211,7 +218,16 @@ function loseLife() {
 }
 
 
-
+function hideTimer() {
+  const timerEl = document.getElementById('timer');
+  if (timerEl) {
+    timerEl.textContent = '';
+  }
+  if (countdownInterval) {
+    clearInterval(countdownInterval);
+    countdownInterval = null;
+  }
+}
 
 // Render updates the existing elements without clearing tile images
 async function render() {
@@ -302,6 +318,41 @@ async function render() {
 }
 
 
+
+function startCountdown(seconds) {
+  const timerEl = document.getElementById('timer');
+  let timeLeft = seconds;
+
+  if (countdownInterval) {
+    clearInterval(countdownInterval);
+  }
+
+  timerEl.textContent = `⏳ Time: ${timeLeft}s`;
+
+  countdownInterval = setInterval(() => {
+    timeLeft--;
+    timerEl.textContent = `⏳ Time: ${timeLeft}s`;
+
+    if (timeLeft <= 0) {
+      clearInterval(countdownInterval);
+      countdownInterval = null;
+      timerEl.textContent = '⏳ Time: 0s';
+
+      // Time's up — lose life and clear question
+      if (!hasTriggeredAnswer) {
+        loseLife();
+        answerTiles = [];
+        selectedAnswerResult = null;
+        hasTriggeredAnswer = false;
+        render();
+        hideSpeechBubble();
+      }
+    }
+  }, 1000);
+}
+
+
+
 function showSpeechBubble(text) {
   const bubble = document.getElementById("question-bubble");
 
@@ -344,11 +395,13 @@ function handleMove(direction) {
   const answer = answerTiles.find(tile => tile.x === playerCell.x && tile.y === playerCell.y);
 
   if (answer && !hasTriggeredAnswer) {
-    if (questionTimer) {
-      clearTimeout(questionTimer);
-      questionTimer = null;
+    if (countdownInterval) {
+      clearInterval(countdownInterval);
+      countdownInterval = null;
     }
-  
+    hideTimer();
+
+    
     hasTriggeredAnswer = true;
     selectedAnswerResult = answer;
   
