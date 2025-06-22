@@ -36,6 +36,10 @@ let answerTiles = [];            // Store which grid squares hold which answer
 
 let gameStarted = false;
 
+let autoQuestionInterval = null;
+let questionCooldownTimeout = null;
+
+
 let hasTriggeredAnswer = false; // Allow movement, but prevent multiple answers
 
 let questionTimer = null;
@@ -45,28 +49,27 @@ let countdownInterval = null;
 
 
 function startGame() {
+  if (questionCooldownTimeout) clearTimeout(questionCooldownTimeout);
+
   startScreen.style.display = 'none';  // hide start screen
   container.style.display = 'flex';    // <-- add this line to show game container
   state = createGameState();            // reset game state
   render();                            // render initial game
   gameStarted = true;
+  setTimeout(() => {
+    startMathChallenge();
+  }, 2000); // 2 second delay (2000ms)
+  
 }
 
 startBtn.addEventListener('click', startGame);
 
-// Initially, show start screen and don't start the game loop until clicked
-window.addEventListener('DOMContentLoaded', () => {
-  createGrid();
-  render();
 
-  // Show start screen by default
-  startScreen.style.display = 'flex';
-
-  // Optionally disable controls or movement until game starts
-});
 
 
 function resetGame() {
+  if (questionCooldownTimeout) clearTimeout(questionCooldownTimeout);
+
   // Reset your game state here
   state = createGameState();
 
@@ -89,6 +92,12 @@ function resetGame() {
     const heart = document.getElementById(`heart-${i}`);
     if (heart) heart.style.visibility = 'visible';
   }
+  questionCooldownTimeout = null;
+  currentQuestion = null;
+  answerTiles = [];
+  selectedAnswerResult = null;
+  hasTriggeredAnswer = false;
+
 }
 
 
@@ -148,22 +157,29 @@ function startMathChallenge() {
 
   // 8. Start the timer for this question
   questionTimeRemaining = questionObj.timeLimit || 10000; // default 10 seconds if missing
-
-  // questionTimer = setTimeout(() => {
-  //   // Timer ran out — lose life & clear question
-  //   loseLife();
-
-  //   answerTiles = [];
-  //   currentQuestion = null;
-  //   selectedAnswerResult = null;
-  //   hasTriggeredAnswer = false;
-
-  //   hideSpeechBubble();
-  //   hideTimer();
-  //   render();
-
-  // }, questionTimeRemaining);
 }
+
+
+
+function scheduleNextQuestion() {
+  if (questionCooldownTimeout) clearTimeout(questionCooldownTimeout);
+
+  const delay = Math.floor(Math.random() * (10000 - 4000 + 1)) + 4000; // Random between 4000–10000 ms
+
+  questionCooldownTimeout = setTimeout(() => {
+    startMathChallenge();
+  }, delay);
+}
+
+
+function stopAutoQuestions() {
+  if (autoQuestionInterval) {
+    clearInterval(autoQuestionInterval);
+    autoQuestionInterval = null;
+  }
+}
+
+
 
 
 
@@ -353,6 +369,7 @@ function startCountdown(seconds) {
         render();
         hideSpeechBubble();
       }
+      scheduleNextQuestion();  // wait 5 seconds after timeout
     }
   }, 1000);
 }
@@ -432,6 +449,8 @@ function handleMove(direction) {
     }, 600);
   
     hideSpeechBubble();
+    scheduleNextQuestion();  // wait 5 seconds after answer
+
   }
   
 }
@@ -447,6 +466,8 @@ const keyMap = {
 
 let moveInterval = null;
 let currentDirection = null;
+
+
 
 
 document.getElementById('lose-life-btn').addEventListener('click', loseLife);
@@ -488,37 +509,40 @@ window.stopHold = function () {
   clearInterval(buttonHoldInterval);
   buttonHoldInterval = null;
 };
+
 window.addEventListener('DOMContentLoaded', () => {
+  // Setup grid
   createGrid();
   render();
 
+  // Show start screen
+  startScreen.style.display = 'flex';
+
+  // Start math challenge button
+  document.getElementById('start-challenge-btn').addEventListener('click', startMathChallenge);
+
+  // Reset button (die button)
+  document.getElementById('reset-btn').addEventListener('click', resetGame);
+
+  // Arrow animation setup
   const arrows = document.querySelectorAll('.arrow-btn');
   arrows.forEach((btn) => btn.classList.add('pulsing'));
 
   setTimeout(() => {
     arrows.forEach((btn) => btn.classList.remove('pulsing'));
 
-    // 👇 Fade .arrow-wrapper after flashing
     const wrappers = document.querySelectorAll('.arrow-wrapper');
     wrappers.forEach(wrapper => {
       wrapper.style.opacity = '0.2';
     });
   }, 5000);
 
-  // 👇 Ensure they start fully visible (for game reset)
   const wrappers = document.querySelectorAll('.arrow-wrapper');
   wrappers.forEach(wrapper => {
     wrapper.style.opacity = '1';
   });
-
-  document.getElementById('start-challenge-btn').addEventListener('click', startMathChallenge);
 });
 
 
-window.addEventListener('DOMContentLoaded', () => {
-  // existing setup...
 
-  // Add die button listener
-  const dieBtn = document.getElementById('die-btn');
-  dieBtn.addEventListener('click', resetGame);
-});
+

@@ -53,6 +53,6 @@ export const mathQuestions = [
     question: "\\int_1^2 2x \\, dx",
     answer: "3",
     wrongAnswers: ["2", "4", "1"],
-    timeLimit: 11000
+    timeLimit: 20000
   }
 ];
