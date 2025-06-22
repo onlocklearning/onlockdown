@@ -162,12 +162,6 @@ h3 {
    HUD
 ======================================== */
 
-.hud {
-  /* background-color: #ffffff; */
-  border-radius: 50px;
-  display: flex;
-  flex-direction: row;
-}
 
 .corn-hud {
   position: absolute;
@@ -314,6 +308,8 @@ h3 {
 .speech-modal.hidden {
   display: none;
 }
+
+
 
 /* ========================================
    CONTROLS (DIRECTIONAL & TOUCH)
@@ -511,19 +507,36 @@ h3 {
 /* ========================================
    TEMPORARY
 ======================================== */
-#die-btn {
-  font-size: 1.2rem;
-  padding: 0.5rem 1rem;
-  border-radius: 8px;
-  background-color: #b22222;
-  /* dark red */
-  color: white;
-  border: none;
-  cursor: pointer;
-  box-shadow: 0 4px 10px rgba(178, 34, 34, 0.5);
-  transition: background-color 0.3s ease;
+.test-buttons {
+  display: flex;
+  flex-direction: row;
+  gap: 1em;
 }
 
-#die-btn:hover {
+.test-buttons button{
+  font-size: 1.2rem;
+  font-family: 'onest';
+  font-weight: 600;
+  padding: 0.5rem 1rem;
+  color: white;
+  cursor: pointer;
+  border: 6px solid #000000;
+  border-radius: 20px;
+}
+
+.test-buttons button:hover {
   background-color: #ff0000;
+}
+
+#reset-btn {
+  background-color: #272727;
+}
+
+
+#lose-life-btn {
+  background-color: #232323;
+}
+
+#start-challenge-btn {
+  background: rgb(37, 37, 37);
 }
