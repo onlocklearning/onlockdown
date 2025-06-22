@@ -34,6 +34,9 @@ let gameStarted = false;
 
 let hasTriggeredAnswer = false; // Allow movement, but prevent multiple answers
 
+let questionTimer = null;
+let questionTimeRemaining = 0;
+
 function startGame() {
   startScreen.style.display = 'none';  // hide start screen
   container.style.display = 'flex';    // <-- add this line to show game container
@@ -67,11 +70,18 @@ function resetGame() {
   // Hide speech bubble if visible
   const bubble = document.querySelector('.speech-modal');
   if (bubble) {
-    bubble.style.display = 'none';  // hides bubble by inline style
+    bubble.style.display = 'none';
   }
 
-  // Reset score or other HUD elements if needed
+  // Reset score
   document.getElementById('hud').innerText = '';
+
+  // Reset lives (both logic and hearts)
+  lives = 3;
+  for (let i = 1; i <= 3; i++) {
+    const heart = document.getElementById(`heart-${i}`);
+    if (heart) heart.style.visibility = 'visible';
+  }
 }
 
 
@@ -82,6 +92,12 @@ function startMathChallenge() {
     startScreen.style.display = 'none';
     container.style.display = 'flex';
     gameStarted = true;
+  }
+
+  // Clear any existing timer if question was already active
+  if (questionTimer) {
+    clearTimeout(questionTimer);
+    questionTimer = null;
   }
 
   // 1. Pick a random math question
@@ -118,11 +134,25 @@ function startMathChallenge() {
 
   // 7. Re-render the grid with answers shown
   render();
-  
   showSpeechBubble(questionObj.question);
 
-}
+  // 8. Start the timer for this question
+  questionTimeRemaining = questionObj.timeLimit || 10000; // default 10 seconds if missing
 
+  questionTimer = setTimeout(() => {
+    // Timer ran out — lose life & clear question
+    loseLife();
+
+    answerTiles = [];
+    currentQuestion = null;
+    selectedAnswerResult = null;
+    hasTriggeredAnswer = false;
+
+    hideSpeechBubble();
+    render();
+
+  }, questionTimeRemaining);
+}
 
 
 
@@ -169,16 +199,17 @@ function loseLife() {
   if (lives > 0) {
     const heart = document.getElementById(`heart-${lives}`);
     if (heart) {
-      heart.style.visibility = 'hidden'; // or heart.remove();
+      heart.style.visibility = 'hidden';
     }
     lives--;
   }
 
   if (lives === 0) {
     console.log('Game Over');
-    // Add your game over logic here
+    resetGame(); // 👈 this is the key addition!
   }
 }
+
 
 
 
@@ -313,31 +344,36 @@ function handleMove(direction) {
   const answer = answerTiles.find(tile => tile.x === playerCell.x && tile.y === playerCell.y);
 
   if (answer && !hasTriggeredAnswer) {
-    hasTriggeredAnswer = true; // ✅ Only trigger once
+    if (questionTimer) {
+      clearTimeout(questionTimer);
+      questionTimer = null;
+    }
+  
+    hasTriggeredAnswer = true;
     selectedAnswerResult = answer;
-
+  
     if (answer.isCorrect) {
       correctSound.play();
     } else {
       incorrectSound.play();
+      loseLife(); // 💥 Lose life if wrong
     }
-
-    // Add fade-out class to all answer spans
+  
     const allAnswerSpans = document.querySelectorAll('.answer-label');
     allAnswerSpans.forEach(span => {
       span.classList.add('fade-out');
     });
-
-    // Wait for fade to finish, then clear
+  
     setTimeout(() => {
       answerTiles = [];
       selectedAnswerResult = null;
-      hasTriggeredAnswer = false; // ✅ Reset after clearing
+      hasTriggeredAnswer = false;
       render();
     }, 600);
-
+  
     hideSpeechBubble();
   }
+  
 }
     
 
