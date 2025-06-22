@@ -11,6 +11,19 @@ const hud = document.getElementById('hud');
 const startScreen = document.getElementById('start-screen');
 const startBtn = document.getElementById('start-game-btn');
 
+const chickenSprites = {
+  up: new Image(),
+  down: new Image(),
+  left: new Image(),
+  right: new Image()
+};
+
+chickenSprites.up.src = 'assets/images/chicken/chicken_up.png';
+chickenSprites.down.src = 'assets/images/chicken/chicken_down.png';
+chickenSprites.left.src = 'assets/images/chicken/chicken_left.png';
+chickenSprites.right.src = 'assets/images/chicken/chicken_right.png';
+
+
 let currentQuestion = null;      // Store the current math question object
 let answerTiles = [];            // Store which grid squares hold which answer
 
@@ -209,8 +222,8 @@ async function render() {
     // Add player (chicken) image if present
     if (cell.hasPlayer) {
       const chicken = document.createElement('img');
-      const facing = state.facing || 'down'; // fallback if missing
-      chicken.src = `assets/images/chicken/chicken_${facing}.png`;
+      const facing = state.facing || 'down';
+      chicken.src = chickenSprites[facing].src;  // 🧠 use preloaded version
       chicken.alt = 'chicken';
       chicken.classList.add('chicken-img');
       div.appendChild(chicken);
@@ -272,24 +285,22 @@ function handleMove(direction) {
   
       if (answer) {
         // Remove question bubble
-        hideSpeechBubble();
-  
-        // Clear the answerTiles so they don't keep showing
-        answerTiles = [];
-  
-        // Optional: do something with correct/incorrect
+        setTimeout(() => {
+          answerTiles = [];
+          render();  // re-render to remove answer labels
+        }, 1500); // 1500 milliseconds = 1.5 seconds
+    
+        // Optional: do something with correct/incorrect immediately
         if (answer.isCorrect) {
           console.log("✅ Correct!");
           correctSound.play();
         } else {
           console.log("❌ Incorrect!");
           incorrectSound.play();
-
         }
-  
-        render(); // re-render to remove answer labels
       }
     }
+    
   
 
 
