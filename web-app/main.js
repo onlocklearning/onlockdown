@@ -223,7 +223,7 @@ function loseLife() {
 
 
 function hideTimer() {
-  const timerEl = document.getElementById('timer');
+  const timerEl = document.getElementById('bubble-timer');
   if (timerEl) {
     timerEl.textContent = '';
   }
@@ -232,6 +232,7 @@ function hideTimer() {
     countdownInterval = null;
   }
 }
+
 
 // Render updates the existing elements without clearing tile images
 async function render() {
@@ -324,31 +325,25 @@ async function render() {
 
 
 function startCountdown(seconds) {
-  const timerEl = document.getElementById('timer');
+  const timerEl = document.getElementById('bubble-timer');
   let timeLeft = seconds;
 
-  timerEl.style.display = 'block'; // 👈 show the timer
-
-  if (countdownInterval) {
-    clearInterval(countdownInterval);
-  }
-
+  timerEl.style.display = 'block';
   timerSound.currentTime = 0;
   timerSound.play();
+  timerEl.textContent = `⏳ ${timeLeft}s`;
 
-  timerEl.textContent = `⏳${timeLeft}s`;
+  if (countdownInterval) clearInterval(countdownInterval);
 
   countdownInterval = setInterval(() => {
     timeLeft--;
-    timerEl.textContent = `⏳${timeLeft}s`;
+    timerEl.textContent = `⏳ ${timeLeft}s`;
 
     if (timeLeft <= 0) {
       clearInterval(countdownInterval);
       countdownInterval = null;
       timerEl.textContent = '⏳ 0s';
-
       timerSound.pause();
-      timerEl.style.display = 'none'; // 👈 hide timer when finished
 
       if (!hasTriggeredAnswer) {
         loseLife();
@@ -363,21 +358,22 @@ function startCountdown(seconds) {
 }
 
 
+
 function showSpeechBubble(text) {
   const bubble = document.getElementById("question-bubble");
+  const questionEl = document.getElementById("bubble-question");
 
-  bubble.innerHTML = `\\(${text}\\)?`;
+  questionEl.innerHTML = `\\(${text}\\)?`;
 
-  // Remove any inline 'display: none' so it becomes visible
   bubble.style.display = '';
-
   bubble.classList.remove("hidden");
 
   if (window.MathJax && MathJax.typesetPromise) {
-    MathJax.typesetPromise([bubble])
+    MathJax.typesetPromise([questionEl])
       .catch((err) => console.error("MathJax bubble render error:", err));
   }
 }
+
 
 
 
@@ -417,6 +413,7 @@ function handleMove(direction) {
   
     if (answer.isCorrect) {
       correctSound.play();
+      state.score += 10;   // Add 10 corn for correct answer
     } else {
       incorrectSound.play();
       loseLife(); // 💥 Lose life if wrong

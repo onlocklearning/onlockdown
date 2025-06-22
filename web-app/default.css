@@ -205,20 +205,6 @@ h3 {
   height: 62px;
 }
 
-#timer {
-  display: none;
-}
-
-#timer {
-  font-size: 2em;
-  /* color: white; */
-  font-weight: bold;
-  position: absolute;
-  z-index: 10;
-  right: 0;
-  padding: 50px;
-
-}
 
 
 
