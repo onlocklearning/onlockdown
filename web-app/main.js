@@ -30,6 +30,8 @@ let answerTiles = [];            // Store which grid squares hold which answer
 
 let gameStarted = false;
 
+let hasTriggeredAnswer = false; // Allow movement, but prevent multiple answers
+
 function startGame() {
   startScreen.style.display = 'none';  // hide start screen
   container.style.display = 'flex';    // <-- add this line to show game container
@@ -199,6 +201,14 @@ async function render() {
       const span = document.createElement('span');
       span.innerHTML = `\\(${answer.text}\\)`; // MathJax inline format
       span.classList.add('answer-label');
+
+      if (selectedAnswerResult) {
+        if (answer.text === currentQuestion.answer) {
+          span.classList.add('correct');
+        } else {
+          span.classList.add('incorrect');
+        }
+      }      
       div.appendChild(span);
     }
 
@@ -265,10 +275,13 @@ function hideSpeechBubble() {
 }
 
 
+let selectedAnswerResult = null; // <-- global state variable
 
-// Handle player movement
+
+
+
 function handleMove(direction) {
-  if (!gameStarted) return;  // ignore moves until game started
+  if (!gameStarted) return;
 
   const prevScore = state.score;
   state = movePlayer(state, direction);
@@ -279,27 +292,36 @@ function handleMove(direction) {
     munchSound.play();
   }
 
-      // Check if player just stepped on a correct answer
-      const playerCell = getVisibleGridCells(state).find(c => c.hasPlayer);
-      const answer = answerTiles.find(tile => tile.x === playerCell.x && tile.y === playerCell.y);
-  
-      if (answer) {
-        // Remove question bubble
-        setTimeout(() => {
-          answerTiles = [];
-          render();  // re-render to remove answer labels
-        }, 1500); // 1500 milliseconds = 1.5 seconds
-    
-        // Optional: do something with correct/incorrect immediately
-        if (answer.isCorrect) {
-          console.log("✅ Correct!");
-          correctSound.play();
-        } else {
-          console.log("❌ Incorrect!");
-          incorrectSound.play();
-        }
-      }
+  const playerCell = getVisibleGridCells(state).find(c => c.hasPlayer);
+  const answer = answerTiles.find(tile => tile.x === playerCell.x && tile.y === playerCell.y);
+
+  if (answer && !hasTriggeredAnswer) {
+    hasTriggeredAnswer = true; // ✅ Only trigger once
+    selectedAnswerResult = answer;
+
+    if (answer.isCorrect) {
+      correctSound.play();
+    } else {
+      incorrectSound.play();
     }
+
+    // Add fade-out class to all answer spans
+    const allAnswerSpans = document.querySelectorAll('.answer-label');
+    allAnswerSpans.forEach(span => {
+      span.classList.add('fade-out');
+    });
+
+    // Wait for fade to finish, then clear
+    setTimeout(() => {
+      answerTiles = [];
+      selectedAnswerResult = null;
+      hasTriggeredAnswer = false; // ✅ Reset after clearing
+      render();
+    }, 600);
+
+    hideSpeechBubble();
+  }
+}
     
   
 

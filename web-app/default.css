@@ -179,30 +179,42 @@ font-size: 1.4rem;
 /* ========================================
    MATH & LABELS
 ======================================== */
+
 .answer-label {
-  position: absolute;
-  top: 5px;
-  left: 50%;
-  transform: translateX(-50%);
-  
-  width: 64px;
-  height: 64px;
-  background: rgba(255, 255, 255, 0.85);
-  border-radius: 50%;
+  width: 40px;
+  height: 40px;
   font-size: 1.5em;
   font-weight: bold;
-  color: #000;
-  z-index: 10;
-  pointer-events: none;
-  border: 2px solid #131313;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
 
+  display: inline-block;
+  background-color: #fff; /* or #ccc */
+  padding: 6px 6px;
+  font-family: 'Press Start 2P', monospace; /* pixel-style font */
+  border: 4px solid #000;
+  border-radius: 0; /* no rounding for pixelated look */
+  box-shadow:
+    2px 2px 0 #000;
+  image-rendering: pixelated;
+  transform: scale(1.1);
   display: flex;
   align-items: center;
   justify-content: center;
   text-align: center;
+
+
 }
 
+
+.answer-label.correct {
+  background-color: #1eff00; /* or #ccc */
+
+}
+
+.answer-label.incorrect {
+  
+    background-color: #ff002b; /* or #ccc */
+
+}
 
 
 
