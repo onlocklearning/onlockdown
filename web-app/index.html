@@ -8,34 +8,17 @@
 <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 
 <body>
-  <h1>Chicken Math</h1>
-
+  <h1 class="main-title">Chicken Math</h1>
   <div id="start-screen" class="overlay">
     <h1>Welcome to Chicken Math!</h1>
     <h3>controls:<br>arrow keys if on computer or arrow buttons if on mobile</h3>
     <button id="start-game-btn">Start Game</button>
   </div>
 
-  <div id="hud" style="font-size: 1.5rem; margin-bottom: 10px;">
-    🌽 Corn Collected: 0
-  </div>
 
-  <button id="start-challenge-btn">🎯 Start Math Challenge</button>
-  <style>
-    #start-challenge-btn {
-      position: absolute;
-      top: 10px;
-      left: 10px;
-      z-index: 10;
-      padding: 10px 15px;
-      font-size: 16px;
-      background: gold;
-      border: 2px solid #444;
-      border-radius: 8px;
-      cursor: pointer;
-      font-weight: bold;
-    }
-  </style>
+
+  <div id="question-bubble" class="speech-modal hidden">
+  </div>
 
 
   <div class="full-controls">
@@ -47,6 +30,8 @@
 
       <div id="game-container"></div>
 
+
+      
       <div class="click-zone right" onmousedown="startHold('right')" onmouseup="stopHold()" onmouseleave="stopHold()">
       </div>
     </div>
@@ -66,9 +51,35 @@
     </div>
   </div>
 
-  <div id="question-bubble" class="speech-modal hidden">
-    <div class="speech-content" id="speech-text">What’s 7 + 5?</div>
+
+
+  
+  <!-- 🌽 HUD BAR (now *after* .full-controls) -->
+
+  <div class="hud">
+  <div id="hud" class="corn-hud">
+    🌽 Corn score: 0
   </div>
+  <div id="lives" class="lives-container">
+    <img src="assets/images/heart/heart.png" class="heart" id="heart-1">
+    <img src="assets/images/heart/heart.png" class="heart" id="heart-2">
+    <img src="assets/images/heart/heart.png" class="heart" id="heart-3">
+  </div>
+
+  <button id="start-challenge-btn">🎯 Start Math Challenge</button>
+  <style>
+    #start-challenge-btn {
+      z-index: 10;
+      padding: 10px 15px;
+      font-size: 16px;
+      background: gold;
+      border: 2px solid #444;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+  </style>
+
   <button id="die-btn" style="margin-top: 1rem;">Die (Reset Game)</button>
 
   <script type="module" src="main.js"></script>

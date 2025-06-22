@@ -24,6 +24,8 @@ chickenSprites.left.src = 'assets/images/chicken/chicken_left.png';
 chickenSprites.right.src = 'assets/images/chicken/chicken_right.png';
 
 
+let lives = 3;
+
 let currentQuestion = null;      // Store the current math question object
 let answerTiles = [];            // Store which grid squares hold which answer
 
@@ -162,6 +164,24 @@ function createGrid() {
   }
 }
 
+
+function loseLife() {
+  if (lives > 0) {
+    const heart = document.getElementById(`heart-${lives}`);
+    if (heart) {
+      heart.style.visibility = 'hidden'; // or heart.remove();
+    }
+    lives--;
+  }
+
+  if (lives === 0) {
+    console.log('Game Over');
+    // Add your game over logic here
+  }
+}
+
+
+
 // Render updates the existing elements without clearing tile images
 async function render() {
   const cells = getVisibleGridCells(state);
@@ -241,7 +261,7 @@ async function render() {
   }
 
   if (hud) {
-    hud.innerText = `🌽 Corn Collected: ${state.score}`;
+    hud.innerText = ` ${state.score} 🌽`;
   }
   // Ask MathJax to re-typeset new LaTeX content
   if (window.MathJax && MathJax.typesetPromise) {
@@ -276,9 +296,6 @@ function hideSpeechBubble() {
 
 
 let selectedAnswerResult = null; // <-- global state variable
-
-
-
 
 function handleMove(direction) {
   if (!gameStarted) return;
@@ -323,7 +340,6 @@ function handleMove(direction) {
   }
 }
     
-  
 
 
 const keyMap = {
