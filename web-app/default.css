@@ -1,4 +1,3 @@
-
 /* ========================================
    FONTS
 ======================================== */
@@ -30,19 +29,20 @@ h1 {
   margin-top: 10px;
   font-size: 3rem;
   font-family: 'onest-black';
-  text-shadow: 2px 4px 10px rgba(0, 0, 0, 0.5); /* Drop shadow */
+  text-shadow: 2px 4px 10px rgba(0, 0, 0, 0.5);
+  /* Drop shadow */
   -webkit-text-stroke: 0.24em black;
   stroke-linejoin: round;
   paint-order: stroke fill;
-  text-shadow: -0.1em 0.1em 0.1em rgba(0, 0, 0, 0.95); 
+  text-shadow: -0.1em 0.1em 0.1em rgba(0, 0, 0, 0.95);
 
 }
 
-h3{
-font-size: 1.4rem;
+h3 {
+  font-size: 1.4rem;
 }
 
-.main-title{
+.main-title {
   color: white;
 }
 
@@ -53,7 +53,8 @@ font-size: 1.4rem;
 
 .overlay {
   position: fixed;
-  top: 0; left: 0;
+  top: 0;
+  left: 0;
   width: 100vw;
   height: 100vh;
   background: rgba(30, 30, 30, 0.95);
@@ -74,15 +75,15 @@ font-size: 1.4rem;
   border: none;
   border-radius: 40px;
   background: #ffe607;
-  border: 6px solid #000000; 
+  border: 6px solid #000000;
   color: #000;
-  box-shadow: 0 8px 16px rgba(0,0,0,0.3);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
 }
 
-#start-screen button:hover{
+#start-screen button:hover {
   background: #dd0030;
   color: white;
-  box-shadow: 0 16px 32px rgba(0,0,0,0.3);
+  box-shadow: 0 16px 32px rgba(0, 0, 0, 0.3);
 
 }
 
@@ -128,7 +129,8 @@ font-size: 1.4rem;
   justify-content: center;
   align-items: center;
   /* border: 0.1px solid rgba(0, 0, 0, 0.1); black with 10% opacity */
-  overflow: visible; /* allow chicken to overflow the cell bounds */
+  overflow: visible;
+  /* allow chicken to overflow the cell bounds */
 
 }
 
@@ -160,7 +162,7 @@ font-size: 1.4rem;
    HUD
 ======================================== */
 
-.hud{
+.hud {
   /* background-color: #ffffff; */
   border-radius: 50px;
   display: flex;
@@ -168,28 +170,54 @@ font-size: 1.4rem;
 }
 
 .corn-hud {
-  background-color: #ffffff;
-  font-size: 2em;
+  position: absolute;
+  /* background-color: #ffffff; */
+  font-size: 3em;
   font-weight: bold;
   z-index: 20;
   pointer-events: none;
   color: rgb(0, 0, 0);
-  border-radius: 50px;
+  /* border-radius: 50px; */
   padding: 20px 30px;
-  border: 8px solid #000;
+  /* border: 8px solid #000; */
+  right: 0;
+  color: white;
+  /* opacity: 0.6; */
+  -webkit-text-stroke: 0.13em black;
+  stroke-linejoin: round;
+  paint-order: stroke fill;
+  text-shadow: -0.1em 0.1em 0.1em rgba(0, 0, 0, 0.95);
 
 }
 
 .lives-container {
+  position: absolute;
+  left: 0;
   display: flex;
   gap: 8px;
   align-items: center;
   padding: 0.5rem 1rem;
+  z-index: 30;
 }
 
 .heart {
   width: 62px;
   height: 62px;
+}
+
+#timer {
+  display: none;
+}
+
+#timer {
+  font-size: 2em;
+  /* color: white; */
+  font-weight: bold;
+  position: absolute;
+  z-index: 10;
+  right: 0;
+  padding: 50px;
+
 }
 
 
@@ -202,7 +230,7 @@ font-size: 1.4rem;
   bottom: 0;
   left: 50%;
   transform: translateX(-50%);
-  
+
   width: 120%;
   height: 120%;
   object-fit: contain;
@@ -214,7 +242,7 @@ font-size: 1.4rem;
   width: 40px;
   height: 40px;
   position: absolute;
-  z-index: 1;
+  z-index: 0;
   pointer-events: none;
   user-select: none;
 }
@@ -230,11 +258,14 @@ font-size: 1.4rem;
   font-weight: bold;
 
   display: inline-block;
-  background-color: #fff; /* or #ccc */
+  background-color: #fff;
+  /* or #ccc */
   padding: 6px 6px;
-  font-family: 'Press Start 2P', monospace; /* pixel-style font */
+  font-family: 'Press Start 2P', monospace;
+  /* pixel-style font */
   border: 4px solid #000;
-  border-radius: 0; /* no rounding for pixelated look */
+  border-radius: 0;
+  /* no rounding for pixelated look */
   box-shadow:
     2px 2px 0 #000;
   image-rendering: pixelated;
@@ -243,19 +274,22 @@ font-size: 1.4rem;
   align-items: center;
   justify-content: center;
   text-align: center;
+  z-index: 3;
 
 
 }
 
 
 .answer-label.correct {
-  background-color: #1eff00; /* or #ccc */
+  background-color: #1eff00;
+  /* or #ccc */
 
 }
 
 .answer-label.incorrect {
-  
-    background-color: #ff002b; /* or #ccc */
+
+  background-color: #ff002b;
+  /* or #ccc */
 
 }
 
@@ -269,7 +303,7 @@ font-size: 1.4rem;
   padding: 10px 14px;
   border-radius: 14px;
   border: 4px solid #131313;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
   font-size: 1.3rem;
   white-space: nowrap;
   margin-bottom: 120px;
@@ -281,7 +315,8 @@ font-size: 1.4rem;
   content: '';
   position: absolute;
   bottom: -22px;
-  left: 40px; /* tweak this value as needed */
+  left: 40px;
+  /* tweak this value as needed */
   width: 0;
   height: 0;
   border: 12px solid transparent;
@@ -417,6 +452,8 @@ font-size: 1.4rem;
   display: flex;
   align-items: center;
   justify-content: center;
+  transition: opacity 5s ease;
+
 }
 
 .arrow-wrapper.up {
@@ -456,7 +493,7 @@ font-size: 1.4rem;
 }
 
 
-.arrow_img{
+.arrow_img {
   height: 50%;
   transition: transform 0.2s ease-in-out;
 }
@@ -467,9 +504,20 @@ font-size: 1.4rem;
 }
 
 @keyframes pulse {
-  0%   { transform: scale(1); opacity: 0.8; }
-  50%  { transform: scale(1.15); opacity: 1; }
-  100% { transform: scale(1); opacity: 0.8; }
+  0% {
+    transform: scale(1);
+    opacity: 0.8;
+  }
+
+  50% {
+    transform: scale(1.15);
+    opacity: 1;
+  }
+
+  100% {
+    transform: scale(1);
+    opacity: 0.8;
+  }
 }
 
 
@@ -481,7 +529,8 @@ font-size: 1.4rem;
   font-size: 1.2rem;
   padding: 0.5rem 1rem;
   border-radius: 8px;
-  background-color: #b22222; /* dark red */
+  background-color: #b22222;
+  /* dark red */
   color: white;
   border: none;
   cursor: pointer;

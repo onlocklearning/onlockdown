@@ -1,10 +1,14 @@
 import { createGameState, getVisibleGridCells, movePlayer } from './game.js';
 import { mathQuestions } from './mathQuestions.js';
 
+// sounds
 const correctSound = new Audio('assets/sounds/correct/correct_1.mp3');
 const incorrectSound = new Audio('assets/sounds/wrong/wrong_1.mp3');
-
+const timerSound = new Audio('assets/sounds/timer/timer_loop.mp3'); // replace with your timer sound file
+timerSound.loop = true; // loop the sound while timer runs
 const munchSound = new Audio('assets/sounds/chicken_bite/munch1.mp3');
+
+
 const container = document.getElementById('game-container');
 const hud = document.getElementById('hud');
 
@@ -145,20 +149,20 @@ function startMathChallenge() {
   // 8. Start the timer for this question
   questionTimeRemaining = questionObj.timeLimit || 10000; // default 10 seconds if missing
 
-  questionTimer = setTimeout(() => {
-    // Timer ran out — lose life & clear question
-    loseLife();
+  // questionTimer = setTimeout(() => {
+  //   // Timer ran out — lose life & clear question
+  //   loseLife();
 
-    answerTiles = [];
-    currentQuestion = null;
-    selectedAnswerResult = null;
-    hasTriggeredAnswer = false;
+  //   answerTiles = [];
+  //   currentQuestion = null;
+  //   selectedAnswerResult = null;
+  //   hasTriggeredAnswer = false;
 
-    hideSpeechBubble();
-    hideTimer();
-    render();
+  //   hideSpeechBubble();
+  //   hideTimer();
+  //   render();
 
-  }, questionTimeRemaining);
+  // }, questionTimeRemaining);
 }
 
 
@@ -300,7 +304,7 @@ async function render() {
     if (cell.hasPlayer) {
       const chicken = document.createElement('img');
       const facing = state.facing || 'down';
-      chicken.src = chickenSprites[facing].src;  // 🧠 use preloaded version
+      chicken.src = chickenSprites[facing].src;
       chicken.alt = 'chicken';
       chicken.classList.add('chicken-img');
       div.appendChild(chicken);
@@ -323,22 +327,29 @@ function startCountdown(seconds) {
   const timerEl = document.getElementById('timer');
   let timeLeft = seconds;
 
+  timerEl.style.display = 'block'; // 👈 show the timer
+
   if (countdownInterval) {
     clearInterval(countdownInterval);
   }
 
-  timerEl.textContent = `⏳ Time: ${timeLeft}s`;
+  timerSound.currentTime = 0;
+  timerSound.play();
+
+  timerEl.textContent = `⏳${timeLeft}s`;
 
   countdownInterval = setInterval(() => {
     timeLeft--;
-    timerEl.textContent = `⏳ Time: ${timeLeft}s`;
+    timerEl.textContent = `⏳${timeLeft}s`;
 
     if (timeLeft <= 0) {
       clearInterval(countdownInterval);
       countdownInterval = null;
-      timerEl.textContent = '⏳ Time: 0s';
+      timerEl.textContent = '⏳ 0s';
 
-      // Time's up — lose life and clear question
+      timerSound.pause();
+      timerEl.style.display = 'none'; // 👈 hide timer when finished
+
       if (!hasTriggeredAnswer) {
         loseLife();
         answerTiles = [];
@@ -350,7 +361,6 @@ function startCountdown(seconds) {
     }
   }, 1000);
 }
-
 
 
 function showSpeechBubble(text) {
@@ -481,7 +491,6 @@ window.stopHold = function () {
   clearInterval(buttonHoldInterval);
   buttonHoldInterval = null;
 };
-
 window.addEventListener('DOMContentLoaded', () => {
   createGrid();
   render();
@@ -491,11 +500,23 @@ window.addEventListener('DOMContentLoaded', () => {
 
   setTimeout(() => {
     arrows.forEach((btn) => btn.classList.remove('pulsing'));
+
+    // 👇 Fade .arrow-wrapper after flashing
+    const wrappers = document.querySelectorAll('.arrow-wrapper');
+    wrappers.forEach(wrapper => {
+      wrapper.style.opacity = '0.2';
+    });
   }, 5000);
 
-  document.getElementById('start-challenge-btn').addEventListener('click', startMathChallenge);
+  // 👇 Ensure they start fully visible (for game reset)
+  const wrappers = document.querySelectorAll('.arrow-wrapper');
+  wrappers.forEach(wrapper => {
+    wrapper.style.opacity = '1';
+  });
 
+  document.getElementById('start-challenge-btn').addEventListener('click', startMathChallenge);
 });
+
 
 window.addEventListener('DOMContentLoaded', () => {
   // existing setup...

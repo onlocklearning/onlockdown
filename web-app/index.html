@@ -19,7 +19,6 @@
 
 
   <div id="question-bubble" class="speech-modal hidden"></div>
-  <div id="timer" style="font-size: 18px; font-weight: bold; margin-bottom: 8px;">⏳ Time: --</div>
 
 
   <div class="full-controls">
@@ -29,7 +28,18 @@
       <div class="click-zone left" onmousedown="startHold('left')" onmouseup="stopHold()" onmouseleave="stopHold()">
       </div>
 
-      <div id="game-container"></div>
+      <div id="game-container">
+        <div id="hud" class="corn-hud">
+          🌽 Corn score: 0
+        </div>
+        <div id="lives" class="lives-container">
+          <img src="assets/images/heart/heart.png" class="heart" id="heart-1">
+          <img src="assets/images/heart/heart.png" class="heart" id="heart-2">
+          <img src="assets/images/heart/heart.png" class="heart" id="heart-3">
+        </div>
+        <div id="timer"></div>
+
+      </div>
 
 
       
@@ -58,14 +68,7 @@
   <!-- 🌽 HUD BAR (now *after* .full-controls) -->
 
   <div class="hud">
-  <div id="hud" class="corn-hud">
-    🌽 Corn score: 0
-  </div>
-  <div id="lives" class="lives-container">
-    <img src="assets/images/heart/heart.png" class="heart" id="heart-1">
-    <img src="assets/images/heart/heart.png" class="heart" id="heart-2">
-    <img src="assets/images/heart/heart.png" class="heart" id="heart-3">
-  </div>
+
   <button id="lose-life-btn">💔 Test Lose Life</button>
 
   <button id="start-challenge-btn">🎯 Start Math Challenge</button>
