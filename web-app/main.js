@@ -62,16 +62,34 @@ const tiers = [
 ];
 let currentDifficulty = "easy";
 
+// Initialize high score from localStorage or 0 if none found
+let highScore = parseInt(localStorage.getItem('highScore')) || 0;
+
+// Update high score display on page load
+const highScoreEl = document.querySelector('#high-score h2');
+highScoreEl.textContent = `High Score: ${highScore}`;
+
+
+
 const tierRewards = {
-  tier1: 1,
-  tier2: 2,
-  tier3: 3,
-  tier4: 5,
+  tier1: 3,
+  tier2: 4,
+  tier3: 5,
+  tier4: 6,
   tier5: 8,
   tier6: 12,
   tier7: 18,
   tier8: 25
 };
+
+
+function updateHighScore(newScore) {
+  if (newScore > highScore) {
+    highScore = newScore;
+    localStorage.setItem('highScore', highScore);
+    highScoreEl.textContent = `High Score: ${highScore}`;
+  }
+}
 
 
 function startGame() {
@@ -279,6 +297,8 @@ function loseLife() {
   if (lives === 0) {
     isGameOver = true; // <-- Important line
     gameOverSound.play();
+    updateHighScore(state.score); // <-- Add this line here
+
   
     console.log('Game Over');
     gameOverSound.play();
@@ -502,6 +522,8 @@ function handleMove(direction) {
       correctSound.play();
       const reward = tierRewards[currentQuestion.difficulty] || 0;
       state.score += reward;
+      updateHighScore(state.score);  // <-- Add this line here
+
     
       // Floating reward effect
       const rewardEl = document.getElementById('floating-reward');
