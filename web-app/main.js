@@ -47,6 +47,19 @@ let questionTimeRemaining = 0;
 
 let countdownInterval = null;
 
+let questionCount = 0;
+const tiers = [
+  "tier1",
+  "tier2",
+  "tier3",
+  "tier4",
+  "tier5",
+  "tier6",
+  "tier7",
+  "tier8"
+];
+let currentDifficulty = "easy";
+
 
 function startGame() {
   if (questionCooldownTimeout) clearTimeout(questionCooldownTimeout);
@@ -68,6 +81,9 @@ startBtn.addEventListener('click', startGame);
 
 
 function resetGame() {
+  questionCount = 0;
+  currentDifficulty = "tier1";
+  
   if (questionCooldownTimeout) clearTimeout(questionCooldownTimeout);
 
   // Reset your game state here
@@ -117,8 +133,17 @@ function startMathChallenge() {
   }
 
   // 1. Pick a random math question
-  const questionObj = mathQuestions[Math.floor(Math.random() * mathQuestions.length)];
-  currentQuestion = questionObj;
+  questionCount++;
+
+  // Determine tier index based on questionCount:
+  // e.g. every 5 questions, move to next tier (adjust as you like)
+  const tierIndex = Math.min(Math.floor(questionCount / 5), tiers.length - 1);
+  currentDifficulty = tiers[tierIndex];
+  
+  const possibleQuestions = mathQuestions.filter(q => q.difficulty === currentDifficulty);
+  const questionObj = possibleQuestions[Math.floor(Math.random() * possibleQuestions.length)];
+
+      currentQuestion = questionObj;
 
   startCountdown(Math.floor(questionObj.timeLimit / 1000));
 
