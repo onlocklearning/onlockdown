@@ -89,6 +89,25 @@ h3 {
 
 
 
+/* ========================================
+   game-over
+======================================== */
+
+
+#game-over-screen {
+  background-color: rgba(0, 0, 0, 0.85);
+  color: white;
+  text-align: center;
+  padding: 2rem;
+  z-index: 999;
+}
+
+#game-over-screen h1 {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+}
+
+
 
 /* ========================================
    GAME CONTAINER & GRID
@@ -503,6 +522,47 @@ h3 {
 }
 
 
+
+
+
+/* ========================================
+   FLOATING
+======================================== */
+
+.reward-float {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 2rem;
+  font-weight: bold;
+  color: #ffffff; /* golden color */
+  opacity: 0;
+  pointer-events: none;
+  z-index: 1000;
+  transition: transform 0.6s ease-out, opacity 0.6s ease-out;
+  margin-left: 90px;
+  margin-bottom: 130px;
+  -webkit-text-stroke: 0.24em black;
+  stroke-linejoin: round;
+  paint-order: stroke fill;
+  text-shadow: -0.1em 0.1em 0.1em rgba(0, 0, 0, 0.95);
+
+
+}
+
+.reward-float.show {
+  opacity: 1;
+  transform: translate(-50%, -80%);
+}
+#reward-corn {
+  width: 60px;
+  height: auto;
+  /* transform: rotate(-10deg); */
+}
+.hidden {
+  display: none;
+}
 
 /* ========================================
    TEMPORARY

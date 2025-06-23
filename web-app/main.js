@@ -60,6 +60,17 @@ const tiers = [
 ];
 let currentDifficulty = "easy";
 
+const tierRewards = {
+  tier1: 1,
+  tier2: 2,
+  tier3: 3,
+  tier4: 5,
+  tier5: 8,
+  tier6: 12,
+  tier7: 18,
+  tier8: 25
+};
+
 
 function startGame() {
   if (questionCooldownTimeout) clearTimeout(questionCooldownTimeout);
@@ -189,7 +200,7 @@ function startMathChallenge() {
 function scheduleNextQuestion() {
   if (questionCooldownTimeout) clearTimeout(questionCooldownTimeout);
 
-  const delay = Math.floor(Math.random() * (10000 - 4000 + 1)) + 4000; // Random between 4000–10000 ms
+  const delay = Math.floor(Math.random() * (8000 - 4000 + 1)) + 3000; // Random between 4000–10000 ms
 
   questionCooldownTimeout = setTimeout(() => {
     startMathChallenge();
@@ -455,8 +466,24 @@ function handleMove(direction) {
   
     if (answer.isCorrect) {
       correctSound.play();
-      state.score += 10;   // Add 10 corn for correct answer
-    } else {
+      const reward = tierRewards[currentQuestion.difficulty] || 0;
+      state.score += reward;
+    
+      // Floating reward effect
+      const rewardEl = document.getElementById('floating-reward');
+      const rewardText = document.getElementById('reward-text');
+      if (rewardEl && rewardText) {
+        rewardText.textContent = `+${reward} 🌽`;
+        rewardEl.classList.remove('hidden');
+        rewardEl.classList.add('show');
+    
+        setTimeout(() => {
+          rewardEl.classList.remove('show');
+          rewardEl.classList.add('hidden');
+        }, 700);
+      }
+    }
+         else {
       incorrectSound.play();
       loseLife(); // 💥 Lose life if wrong
     }
