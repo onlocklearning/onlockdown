@@ -9,7 +9,6 @@ timerSound.loop = true; // loop the sound while timer runs
 const munchSound = new Audio('assets/sounds/chicken_bite/munch1.mp3');
 const gameOverSound = new Audio('assets/sounds/game_over.mp3');
 
-
 const container = document.getElementById('game-container');
 const hud = document.getElementById('hud');
 
@@ -27,7 +26,6 @@ chickenSprites.up.src = 'assets/images/chicken/chicken_up.png';
 chickenSprites.down.src = 'assets/images/chicken/chicken_down.png';
 chickenSprites.left.src = 'assets/images/chicken/chicken_left.png';
 chickenSprites.right.src = 'assets/images/chicken/chicken_right.png';
-
 
 let lives = 3;
 
@@ -450,6 +448,8 @@ function startCountdown(seconds) {
       countdownInterval = null;
       timerEl.textContent = '⏳ 0s';
       timerSound.pause();
+      incorrectSound.play();
+
 
       if (!hasTriggeredAnswer) {
         loseLife();
