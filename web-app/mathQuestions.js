@@ -1,70 +1,78 @@
 export const mathQuestions = [
   // Tier 1 (Very Easy)
-  {
-    question: "4 + 3",
-    answer: "7",
-    wrongAnswers: ["17948237", "8", "9"],
-    timeLimit: 20000,
-    difficulty: "tier1"
-  },
   // {
-  //   question: "6 - 2",
-  //   answer: "4",
-  //   wrongAnswers: ["2", "5", "3"],
-  //   timeLimit: 5000,
-  //   difficulty: "tier1"
-  // },
-  // {
-  //   question: "2 + 2 × 2",
-  //   answer: "6",
-  //   wrongAnswers: ["8", "4", "10"],
-  //   timeLimit: 6000,
-  //   difficulty: "tier1"
-  // },
-  // {
-  //   question: "9 ÷ 3",
-  //   answer: "3",
-  //   wrongAnswers: ["2", "4", "6"],
-  //   timeLimit: 5000,
-  //   difficulty: "tier1"
-  // },
-  // {
-  //   question: "8 + 1",
-  //   answer: "9",
-  //   wrongAnswers: ["7", "10", "11"],
-  //   timeLimit: 5000,
-  //   difficulty: "tier1"
-  // },
-  
-  // {
-  //   question: "1 + 1",
-  //   answer: "2",
-  //   wrongAnswers: ["1", "3", "0"],
-  //   timeLimit: 5000,
-  //   difficulty: "tier1"
-  // },
-  // {
-  //   question: "3 + 2",
-  //   answer: "5",
-  //   wrongAnswers: ["4", "6", "7"],
-  //   timeLimit: 8000,
+  //   question: "Fourier Series of a square wave contains:",
+  //   answer: "Odd harmonics",
+  //   wrongAnswers: ["Even harmonics", "Sine only", "Cosine only"],
+  //   timeLimit: 22000,
   //   difficulty: "tier1"
   // },
 
-  // {
-  //   question: "5 - 3",
-  //   answer: "2",
-  //   wrongAnswers: ["1", "3", "0"],
-  //   timeLimit: 5000,
-  //   difficulty: "tier1"
-  // },
-  // {
-  //   question: "2 × 3",
-  //   answer: "6",
-  //   wrongAnswers: ["5", "4", "8"],
-  //   timeLimit: 6000,
-  //   difficulty: "tier1"
-  // },
+  {
+    question: "4 + 3",
+    answer: "7",
+    wrongAnswers: ["1", "8", "9"],
+    timeLimit: 20000,
+    difficulty: "tier1"
+  },
+  {
+    question: "6 - 2",
+    answer: "4",
+    wrongAnswers: ["2", "5", "3"],
+    timeLimit: 5000,
+    difficulty: "tier1"
+  },
+  {
+    question: "2 + 2 × 2",
+    answer: "6",
+    wrongAnswers: ["8", "4", "10"],
+    timeLimit: 6000,
+    difficulty: "tier1"
+  },
+  {
+    question: "9 ÷ 3",
+    answer: "3",
+    wrongAnswers: ["2", "4", "6"],
+    timeLimit: 5000,
+    difficulty: "tier1"
+  },
+  {
+    question: "8 + 1",
+    answer: "9",
+    wrongAnswers: ["7", "10", "11"],
+    timeLimit: 5000,
+    difficulty: "tier1"
+  },
+  
+  {
+    question: "1 + 1",
+    answer: "2",
+    wrongAnswers: ["1", "3", "0"],
+    timeLimit: 5000,
+    difficulty: "tier1"
+  },
+  {
+    question: "3 + 2",
+    answer: "5",
+    wrongAnswers: ["4", "6", "7"],
+    timeLimit: 8000,
+    difficulty: "tier1"
+  },
+
+  {
+    question: "5 - 3",
+    answer: "2",
+    wrongAnswers: ["1", "3", "0"],
+    timeLimit: 5000,
+    difficulty: "tier1"
+  },
+  {
+    question: "2 × 3",
+    answer: "6",
+    wrongAnswers: ["5", "4", "8"],
+    timeLimit: 6000,
+    difficulty: "tier1"
+  },
 
   // Tier 2 (Easy)
   {
