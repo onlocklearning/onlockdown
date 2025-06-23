@@ -7,6 +7,7 @@ const incorrectSound = new Audio('assets/sounds/wrong/wrong_1.mp3');
 const timerSound = new Audio('assets/sounds/timer/timer_loop.mp3'); // replace with your timer sound file
 timerSound.loop = true; // loop the sound while timer runs
 const munchSound = new Audio('assets/sounds/chicken_bite/munch1.mp3');
+const gameOverSound = new Audio('assets/sounds/game_over.mp3');
 
 
 const container = document.getElementById('game-container');
@@ -39,6 +40,7 @@ let gameStarted = false;
 let autoQuestionInterval = null;
 let questionCooldownTimeout = null;
 
+let isGameOver = false;
 
 let hasTriggeredAnswer = false; // Allow movement, but prevent multiple answers
 
@@ -73,6 +75,8 @@ const tierRewards = {
 
 
 function startGame() {
+  isGameOver = false; // <-- Reset again to be safe
+
   if (questionCooldownTimeout) clearTimeout(questionCooldownTimeout);
 
   startScreen.style.display = 'none';  // hide start screen
@@ -92,6 +96,8 @@ startBtn.addEventListener('click', startGame);
 
 
 function resetGame() {
+  isGameOver = false; // <-- Reset flag here
+
   questionCount = 0;
   currentDifficulty = "tier1";
   
@@ -131,6 +137,8 @@ function resetGame() {
 
 
 function startMathChallenge() {
+  if (isGameOver) return; // ⛔ Don't show questions if game is over
+
   if (!gameStarted) {
     startScreen.style.display = 'none';
     container.style.display = 'flex';
@@ -199,6 +207,7 @@ function startMathChallenge() {
 
 function scheduleNextQuestion() {
   if (questionCooldownTimeout) clearTimeout(questionCooldownTimeout);
+  if (isGameOver) return; // <--- prevent scheduling if game over
 
   const delay = Math.floor(Math.random() * (8000 - 4000 + 1)) + 3000; // Random between 4000–10000 ms
 
@@ -268,9 +277,28 @@ function loseLife() {
   }
 
   if (lives === 0) {
+    isGameOver = true; // <-- Important line
+    gameOverSound.play();
+  
     console.log('Game Over');
-    resetGame(); // 👈 this is the key addition!
+    gameOverSound.play();
+    // ❌ Clear question and answer UI
+    answerTiles = [];
+    currentQuestion = null;
+    selectedAnswerResult = null;
+    hasTriggeredAnswer = false;
+
+  
+    // Show the Game Over overlay
+    const gameOverScreen = document.getElementById('game-over-screen');
+    
+    gameOverScreen.classList.remove('hidden');
+  
+    // Hide it after 3 seconds and reset the game
+// Wait for player to click Retry
+
   }
+
 }
 
 
@@ -388,6 +416,12 @@ function startCountdown(seconds) {
   if (countdownInterval) clearInterval(countdownInterval);
 
   countdownInterval = setInterval(() => {
+    if (isGameOver) {
+      clearInterval(countdownInterval);
+      countdownInterval = null;
+      return;
+    }
+  
     timeLeft--;
     timerEl.textContent = `⏳ ${timeLeft}s`;
 
@@ -439,7 +473,7 @@ function hideSpeechBubble() {
 let selectedAnswerResult = null; // <-- global state variable
 
 function handleMove(direction) {
-  if (!gameStarted) return;
+  if (!gameStarted || isGameOver) return; // ⛔ No moving after game over
 
   const prevScore = state.score;
   state = movePlayer(state, direction);
@@ -567,6 +601,7 @@ window.addEventListener('DOMContentLoaded', () => {
   createGrid();
   render();
 
+
   // Show start screen
   startScreen.style.display = 'flex';
 
@@ -594,6 +629,14 @@ window.addEventListener('DOMContentLoaded', () => {
     wrapper.style.opacity = '1';
   });
 });
+
+document.getElementById('retry-btn').addEventListener('click', () => {
+  const gameOverScreen = document.getElementById('game-over-screen');
+  gameOverScreen.classList.add('hidden');
+  resetGame();
+  startGame();  // Immediately start the game again
+});
+
 
 
 
